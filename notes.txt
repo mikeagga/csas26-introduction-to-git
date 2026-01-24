@@ -1,0 +1,139 @@
+** file should be removed before final commit **
+
+Workshop flow:
+
+My conundrum: Do I teach how to install Git?
+
+Installing git pros:
+Accurate to real world workflows.
+Directly applicable to current projects.
+
+Cons:
+Many people may not have git installed on their computer, the set up process is
+different per operating system. Would have to dedicate a large amount of
+workshop time to installation instructions. The primary focus of the workshop
+should be learning how to use git. Applying it per person should be an
+individual activity.
+
+Using GitHub Codespaces pros:
+Zero overhead, more time to learn the various ins and outs of git.
+
+Cons:
+Level of abstraction that is confusing for new users. 
+Need to accurately explain this abstraction.
+
+Students would leave with a better understanding of git, but no direct way to
+apply this to their own workflow.
+
+Workshop flow:
+
+1) Introduction, explain why git is useful, brief history.
+
+Explain what a repository is.
+
+Clone repository so there so students have the guide.
+	Could just make their own repository, both would work.
+
+Work will be done inside this repository.
+
+2) Explain the config files:
+
+Show the levels of configs
+
+Have students set the basic settings: name, email, branch
+
+3) Make the first commit:
+
+Create a new file and edit it.
+
+Add it,
+
+git status
+
+Then commit it.
+
+5) Explain the .git/ directory.
+
+git log
+
+Explain some of the inner workings of the git directory, how we basically save
+an snapshot of the repository. 
+
+5) Make another commit
+
+Show how the git log changed.
+
+Explain internals more
+
+6) Teach branching
+
+Explain why branches are useful.
+
+Show creating branch and switching between branches.
+
+Create a commit or two on the branch.
+
+7) Merge branch into main.
+
+Show the process of merging.
+
+Show git log
+
+Explain how the merged commit has two parents. Explain how this not optimal and
+could cause issues with reverting.
+
+8) Rebase
+
+Explain what rebasing is, why it is better for managing branches.
+
+Create a new branch, make a new commit. 
+
+Switch to main, make a new commit.
+
+git log.
+
+rebase the new branch. 
+
+9) Reset
+
+Explain what resetting is and why it is useful.
+
+Make a commit, then soft reset it.
+git status
+show that the worktree is the same, and therefore the staged files are the same.
+git log, show that the commit is redone.
+
+Make another commit, then hard reset it.
+Show that we have been taken back in time (worktree and commit reset)
+
+10) Remote
+
+Create a new local repository.
+
+git remote add <the repo we were working in previously>
+
+git log
+show that it is empty
+
+git fetch
+
+git log
+show that the log is the same as the other repository.
+but the work tree is still empty
+
+git pull, show that we have all the same files as the previous.
+
+Create a new branch
+
+Make a commit on this new repo,
+git push
+
+Go back into the other repo
+
+switch to the new branch.
+
+show that the changes are there.
+
+11) Explain that this is the process that github uses
+
+
