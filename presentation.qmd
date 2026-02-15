@@ -6,4 +6,132 @@ format: html
 ---
 
 
+## 2 Setup repository.
+
+Once you have git installed, or are using some other terminal emulator it is
+time to make your first repo.
+
+First, change directory into where ever you would like to keep your project
+folder. 
+
+For the purpose of consistency I will use the `~/Documents` folder.
+
+`cd ~/Documents`
+
+Now, create a project directory:
+
+`mkdir ./example_project`
+
+Then change directories into it:
+
+`cd ./example_project`
+
+Then lets initaliaze a new git repository:
+
+`git init`
+
+Then lets list all of files within the current directory:
+
+`ls -a`
+
+You will see that a new directory: `.git/` was created. This is what makes a
+directory a git repository. This `.git/` directory is where `git` keeps track of
+everything it needs to provide you will all of its functionality.
+
+## 3 Configuration
+
+There is a set of commands to configure git through the command line, we will
+start with some basic configuration.
+
+Git comes with configuration on both the global (across repos) and the repo
+level. Although, most of the time you will just use the global configuration.
+
+
+Check to see if your username and email are set:
+
+`git config --get user.name`
+
+`git config --get user.email`
+
+If they are not set, then I reccomend that you change them to your Github
+username, and email.
+
+`git config --add --global user.name "github_username_here"`
+`git config --add --global user.emil "email@something.com"`
+
+It is also good practice to set your default branch:
+
+`git config --add --global init.defaultBranch master`
+
+It is good to know that when we are configuring git using these commands, git is
+just changing some files for us.
+
+Global configs are stored in `~/.gitconfig`
+
+Local configs are stored in `./.git/config`
+
+## Baiscs
+
+Try running `git status` in your new project repository.
+
+This command shows us the current staus of repsitory, it will show you which
+files are untracked, staged, and commited.
+
+`untracked` - Git will not track this file.
+`staged` - Marked for inculsion in the next commit.
+`commited` - Saved to the repositories history.
+
+Lets make our first commit.
+
+Make sure that you are in the root of you project directory:
+
+`pwd`
+
+Now lets make create a new file:
+
+If you are familiar with a terminal based text editor like vim or nano, I
+encourage you to use it here. If not, open this file with your favorite text
+editor.
+
+Create a new file: `hello.md`
+
+Then write "hello world!" into the file and save it, and head back to our
+teminal instnace.
+
+run: `git status`
+
+You will see that the new file "hello.md" that we just created is untracked.
+
+We would like to keep track of "hello.md" so lets run:
+
+`git add hello.md`
+
+Now, check the status again:
+
+`git status`
+
+You will see that "hello.md" is now a staged file.
+
+Now lets save a snapshot of this file, within our project directory. It is
+neccesary that we include a message when commiting.
+
+
+I used the word snapshot because git does not store entire files, nor does it
+store the difference between changed files. It is more acurate to view a commit
+as a picture, or a screenshot of your project directory at the time of your
+commit. 
+
+`git commit -m "Add hello.md"`
+
+The `git commit` command will save a snapshot of the staged files, the argument
+`-m` means that the preceding text within the quotation marks will be the commit
+message. Our commit message should be short and informative.
+
+A commit will save a snapshot of all of the staged changes, that means multiple
+edits across multiple files, as long as the changes are staged with `git add`.
+All of these changes are labled as a single commit.
+
+We can view our commit history using the command:
+
+`git log`
 
