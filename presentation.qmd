@@ -2,11 +2,23 @@
 title: "Introduction to Git"
 author: "Michael Agosino"
 date: today
-format: html
+format:
+  html:
+    theme: flaty # bootswatch themes: darkly, cyborg, slate, solar,
+                  # superhero, vapor, cosmo, flatly, lumen, minty, etc.
+    code-copy: true
+    code-overflow: wrap
+    toc: true # table of contents
+    toc-depth: 3 # how many heading levels to include
+    toc-location: left # left, right, or body
+    number-sections: true # auto-number your headings
+    smooth-scroll: true
+    anchor-sections: true # clickable links on headings
+    link-external-newwindow: true
 ---
 
 
-## 2 Setup repository.
+## Setup repository.
 
 Once you have git installed, or are using some other terminal emulator it is
 time to make your first repo.
@@ -38,7 +50,7 @@ You will see that a new directory: `.git/` was created. This is what makes a
 directory a git repository. This `.git/` directory is where `git` keeps track of
 everything it needs to provide you will all of its functionality.
 
-## 3 Configuration
+## Configuration
 
 There is a set of commands to configure git through the command line, we will
 start with some basic configuration.
@@ -49,15 +61,14 @@ level. Although, most of the time you will just use the global configuration.
 
 Check to see if your username and email are set:
 
-`git config --get user.name`
-
-`git config --get user.email`
+- `git config --get user.name`
+- `git config --get user.email`
 
 If they are not set, then I reccomend that you change them to your Github
 username, and email.
 
-`git config --add --global user.name "github_username_here"`
-`git config --add --global user.emil "email@something.com"`
+- `git config --add --global user.name "github_username_here"`
+- `git config --add --global user.emil "email@something.com"`
 
 It is also good practice to set your default branch:
 
@@ -72,20 +83,29 @@ Local configs are stored in `./.git/config`
 
 ## Baiscs
 
+The main functionality of git is that you get to save your work. Git is powerful
+because the user has full control over how they choose to save. There are a few
+states that git may view a file to be in.
+
 Try running `git status` in your new project repository.
 
-This command shows us the current staus of repsitory, it will show you which
-files are untracked, staged, and commited.
+This command shows us the current status of our repsitory, it will show you
+which files are untracked, staged, and commited.
 
-`untracked` - Git will not track this file.
-`staged` - Marked for inculsion in the next commit.
-`commited` - Saved to the repositories history.
+- `untracked` - Git will not track this file.
+- `staged` - Marked for inculsion in the next commit.
+- `commited` - Saved to the repositories history.
 
-Lets make our first commit.
+`git status` is very useful to uderstand the current state of your repository,
+so that you could decide what to do next. We will use it often in this workshop.
+
+### First Commit
+
+Now lets learn how to save our work.
 
 Make sure that you are in the root of you project directory:
 
-`pwd`
+`pwd` - Print working directory.
 
 Now lets make create a new file:
 
@@ -98,7 +118,7 @@ Create a new file: `hello.md`
 Then write "hello world!" into the file and save it, and head back to our
 teminal instnace.
 
-run: `git status`
+Run: `git status`
 
 You will see that the new file "hello.md" that we just created is untracked.
 
@@ -112,14 +132,9 @@ Now, check the status again:
 
 You will see that "hello.md" is now a staged file.
 
-Now lets save a snapshot of this file, within our project directory. It is
-neccesary that we include a message when commiting.
-
-
-I used the word snapshot because git does not store entire files, nor does it
-store the difference between changed files. It is more acurate to view a commit
-as a picture, or a screenshot of your project directory at the time of your
-commit. 
+Git does not store entire files, nor does it store the difference between
+changed files. It is more acurate to view a commit as a picture, or a
+screenshot of your project directory at the time of your commit. 
 
 `git commit -m "Add hello.md"`
 
@@ -127,11 +142,177 @@ The `git commit` command will save a snapshot of the staged files, the argument
 `-m` means that the preceding text within the quotation marks will be the commit
 message. Our commit message should be short and informative.
 
-A commit will save a snapshot of all of the staged changes, that means multiple
-edits across multiple files, as long as the changes are staged with `git add`.
-All of these changes are labled as a single commit.
+## Internals
+
+Now that we have learned how to save or work, lets learn how git actually keeps
+track of everything. Understanding a little about the internals of git will help
+you to understand some best practices and work-flow a bit better. It is also
+interesting!
 
 We can view our commit history using the command:
 
 `git log`
+
+`git log` is very useful in understanding the structures of your commits, we
+will use it often in this wokrshop.
+
+Currently, we only have a single commit. Which should look something like this:
+
+```
+commit b556efb1dcb4bdbfd971b615e8dae4cd26882f91 (HEAD -> master)
+Author: mikeagga <mikeag916@gmail.com>
+Date:   Sun Feb 15 16:14:11 2026 -0500
+
+    Add hello.md
+```
+
+We can learn a lot about how git works through investigating this `commit` line.
+
+This string of seemingly random characters is a hash. It is how git efficiently
+stores and identifies everything it needs to manage your project. 
+
+Git provides a very useful inspecting these hashes:
+
+`git cat-file -p YOUR_COMMIT_HASH_HERE`
+
+**NOTE: You only need to provide the first 4 characters of the hash, so no
+need to type it all out.**
+
+Git tells us exactly what information is provided by the commit hash:
+
+```
+tree 9155d858058637fd4552c960d7f11546e579850b
+author mikeagga <mikeag916@gmail.com> 1771190051 -0500
+committer mikeagga <mikeag916@gmail.com> 1771190051 -0500
+
+Add hello.md
+```
+
+We see another hash, this time it is a tree hash. This is gits way of storing
+your project directory.
+
+We could then cat out this as well.
+
+`git cat-file -p YOUR_TREE_HASH_HERE`
+
+This is the result:
+
+```
+100644 blob a0423896973644771497bdc03eb99d5281615b51    hello.md
+```
+
+Now we can see a blob hash, this is how files are tracked using git. We can see
+the `hello.md` the file that we commited.
+
+We can once again see what this hash means to git.
+
+`git cat-file -p YOUR_BLOB_HASH_HERE`
+
+This is the result:
+
+```
+hello world!
+```
+
+It's the contents of our commited file!
+
+In summary, git uses three types of objects, each identified by a hash:
+
+| Object | What it stores |
+|---|---|
+| Commit | Metadata (author, date, message) and a pointer to a tree. |
+| Tree | A snapshot of your project directory, containing pointers to blobs. |
+| Blob | The raw contents of a single file. |
+
+
+```{mermaid}
+flowchart LR
+    Commit["Commit<br/>b556ef...<br/>Add hello.md"]
+    Tree["Tree<br/>9155d8..."]
+    Blob["Blob<br/>a04238...<br/>(hello.md)"]
+
+    Commit --> Tree
+    Tree --> Blob
+```
+
+Now lets make another commit:
+
+First create a new file using your text editor or IDE.
+
+Call this file "contents.md"
+
+Within this file, type: "contents" save it.
+
+Then back in your terminal:
+
+`git add contents.md` to mark the file as staged.
+
+`git commit -m "Added contents"` to commit the file to your history.
+
+Now run `git --no-pager log --oneline --parents` to view our commit history in a
+more compact way.
+
+```
+f700dd5 b556efb (HEAD -> master) added contents
+b556efb Add hello.md
+```
+
+Our second commit has two hashes next to it, the first hash is its own, the
+second is its parent. Our orginal commit had no parents, since it was the first.
+
+
+we can investigate our new commits hash:
+
+`git cat-file -p YOUR_COMMIT_HASH_HERE`
+
+```
+tree f9d01e625a573fa544c00a0d4acf98c985006c71
+parent b556efb1dcb4bdbfd971b615e8dae4cd26882f91
+author mikeagga <mikeag916@gmail.com> 1772047353 -0500
+committer mikeagga <mikeag916@gmail.com> 1772047353 -0500
+
+added contents
+```
+
+Notice that the tree hash is differnt then the the tree hash of our first
+commit.
+
+lets investigate it:
+
+`git cat-file -p YOUR_TREE_HASH_HERE`
+
+```
+100644 blob 12f00e90b6ef79117ce6e650416b8cf517099b78    contents.md
+100644 blob a0423896973644771497bdc03eb99d5281615b51    hello.md
+```
+
+Notice that, since we never changed hello.md, the hash remains the same.
+
+```{mermaid}
+flowchart LR
+    CommitA["Commit<br/>b556ef...<br/>Add hello.md"]
+    CommitB["Commit<br/>f700dd...<br/>Added contents"]
+    TreeA["Tree<br/>9155d8..."]
+    TreeB["Tree<br/>f9d01e..."]
+    BlobHello["Blob<br/>a04238...<br/>(hello.md)"]
+    BlobContents["Blob<br/>12f00e...<br/>(contents.md)"]
+
+    CommitB --> CommitA
+    CommitA --> TreeA
+    CommitB --> TreeB
+    TreeA --> BlobHello
+    TreeB --> BlobContents
+    TreeB --> BlobHello
+```
+
+Each commit points to its own tree, which represents the state of your project
+at that moment in time. But since hello.md was unchanged, both trees point to
+the exact same blob.
+
+This is why git is so efficient even on large projects with long histories. Only
+the files that actually changed take up new space.
+
+## Branching
+
+Now that we have learned about how git works, we can get into more functionaliy. 
 
