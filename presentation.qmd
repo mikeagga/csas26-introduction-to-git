@@ -4,16 +4,16 @@ author: "Michael Agosino"
 date: today
 format:
   html:
-    theme: flaty # bootswatch themes: darkly, cyborg, slate, solar,
-                  # superhero, vapor, cosmo, flatly, lumen, minty, etc.
+    theme: flaty 
+                  
     code-copy: true
     code-overflow: wrap
-    toc: true # table of contents
-    toc-depth: 3 # how many heading levels to include
-    toc-location: left # left, right, or body
-    number-sections: true # auto-number your headings
+    toc: true 
+    toc-depth: 3
+    toc-location: left 
+    number-sections: true 
     smooth-scroll: true
-    anchor-sections: true # clickable links on headings
+    anchor-sections: true 
     link-external-newwindow: true
 ---
 
@@ -72,7 +72,7 @@ username, and email.
 
 It is also good practice to set your default branch:
 
-`git config --add --global init.defaultBranch master`
+`git config --add --global init.defaultBranch main`
 
 It is good to know that when we are configuring git using these commands, git is
 just changing some files for us.
@@ -80,6 +80,9 @@ just changing some files for us.
 Global configs are stored in `~/.gitconfig`
 
 Local configs are stored in `./.git/config`
+
+
+ADD SOME MORE ABOUT CONFIGURATION.
 
 ## Baiscs
 
@@ -314,5 +317,141 @@ the files that actually changed take up new space.
 
 ## Branching
 
-Now that we have learned about how git works, we can get into more functionaliy. 
+Now that we understand some of the inner workings of git, we can learn more
+about functionality. One of the most useful features in git is the ability to
+branch off of you current commit line. Branching allows you to take the project in a
+new direction, while preserving the original project entirely.
 
+PUT IN AN DIAGRAM EXAMPLE HERE
+
+Branching is also necessary to understand if you are working on a collabrative
+project with multiple people. 
+
+We can list all of the branches in our repo with:
+
+`git branch`
+
+Currently we only have our default branch: `main` which we set the name of
+earlier.
+
+Create a new branch:
+
+`git branch test`
+
+Where `test` is the name of the branch that we are creating.
+
+`git switch test` will then allow us to switch to a specified branch. 
+
+Lets make a commit on this branch.
+
+Create a new file `groceries.md`, within the file add:
+
+```
+Eggs
+Cheese
+Milk
+```
+
+back in the terminal: 
+
+`git add groceries.md`
+
+`git commit -m "added grocery list"`
+
+we can again look at the commit history:
+
+`git log`
+
+You can see that all of our previous commits to `main` are listed here, in
+addtion the commit that we have just made is also listed. 
+
+now lets switch back to `main`
+
+git switch `main`
+
+now use `git log` again to compare the commit history between branches.
+
+You will see that the commit that we made to `test` is missing. 
+
+Now, this is the functionality of branches, our `test` branch will preserve the
+history and changes up to the time the new branch is created. Any changes on
+one branch will have no effect on other branches. This allows you to take a
+project in a new direction, without effecting the original project.
+
+Lets create another commit on `main`
+
+Double check that you are still on the main branch `git branch`
+
+Create a new file: `movies.md`
+
+and within the file add:
+
+```
+The God Father
+The Dark Night
+Back To The Future
+```
+
+Now, add and commit this file be sure that you are on `main` and use the commit
+message "added movies.md".
+
+now run: `git log --oneline --graph --all --decorate --parents`
+
+The argument `--decorate` will allow us to see the commit history across
+branches. The rest of the arguments are there for convience. 
+
+You could see that these most recent commits share the same parent. This is the
+point of divergence and illustrates how branches represent a new commit history
+at a chosen point.
+
+INSERT GRAPHICS OF BRANCHING HERE
+
+## Merge
+
+Imagine you are using git to manage the creation of a Website. Imagine that you
+have created a new branch to test some differnt colors for the background of
+this website. Now lets say that you like how these changes look, and want the
+main branch to incorperate the changes. There are a few ways to do this, the
+most simple way would be to merege the branches. 
+
+
+Lets merge our branches to demostrate what this may look like:
+
+Double check that you are on the correct branch. When merging branches, you
+should be sure that you are on the brach that you would like to incorperate the
+changes onto. For us, that is `main`.
+
+then use `git merge test`
+
+where `test` is the branch to merge.
+
+(Maybe explain a fast forward merge. Only if I mention it later.)
+(Explain what to do if there are merege confilcts.)
+
+
+
+## Revert
+
+To illustrate why this is so powerful, think about the back button in your
+browser. Your browser keeps track of the pages you visit as a kind of history
+tree. If you hit the back button and then click a new link, you lose your
+ability to go "forward" to where you were that branch.
+
+```{mermaid}
+flowchart LR
+		A["google.com"]
+		B["wikipedia.org"]
+		C["wikipedia.org/git"]
+		D["wikipedia.org/linux"]
+
+		A --> B --> C
+		B --> D
+```
+
+In this example, if you navigated to wikipedia.org/git and then hit back and
+clicked through to wikipedia.org/linux, there is no built-in way to get back to
+wikipedia.org/git. It is simply lost.
+
+Git gives you full control so that this never has to happen to your code. You
+can move freely between any point in your commit history, create new branches
+from any commit, and never worry about losing work.
