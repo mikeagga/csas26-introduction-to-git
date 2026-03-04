@@ -415,6 +415,24 @@ main branch to incorperate the changes. There are a few ways to do this, the
 most simple way would be to merege the branches. 
 
 
+There are a few basic types of merges that will be good to know about.
+
+The first is a fast forward merge. This is when you create a commit on a new
+branch, and there have been no new commits on the main branch. In this case, you
+could imagine that git treats this branch as now just part of main.
+
+INSERT IMAGE OF FFMERGE
+
+The second is a merge commit. This is where you would like to merge your feature
+onto main, but there has been a commit on main. Git deals with this deviation
+through creating a new commit which connects the deviated histories of both
+branches.
+
+INSERT IMAGE OF merge commit.
+
+In our case, we have already moved forward with main, after creating a new
+feature branch. Thereby we will be using a merege commit.
+
 Lets merge our branches to demostrate what this may look like:
 
 Double check that you are on the correct branch. When merging branches, you
@@ -425,12 +443,72 @@ then use `git merge test`
 
 where `test` is the branch to merge.
 
-(Maybe explain a fast forward merge. Only if I mention it later.)
-(Explain what to do if there are merege confilcts.)
+Now look at the commit history:
+`git log --oneline --graph --all --decorate --parents`
 
+You will see that now this merge commit has two parents, one from the `test`
+branch and the other from `main`.
 
+We know that git allows you to manage your projects history, one significant
+part of managing a projects history is that you may have to revert to older
+versions. Say for instance you commit a change that breaks the project. Git
+allows you to go back in time to previous commits. 
 
-## Revert
+It may be apparent that since a merege commit has two parents, reverting will
+get complicated. Since the commit history is split between two branches, git
+will give you a difficult time. This will cause many headaches if you happen to
+need to revert to a point before a merge commtit. Therefore it is always best to
+avoid merge commits and only use fast forward merge. It is best practice to
+instead use `rebase` when working in a local repository.
+
+## Rebase
+
+First we will undo the merge commit that we just made:
+
+`git reset --hard HEAD~1`
+
+This is safe since we have not made any other commits, and we have not pushed it
+to any remote repo.
+
+We will learn what this command does in the next section.
+
+If you look at the commit history with: 
+`git log --oneline --graph --all --decorate --parents`
+
+You will see that the merge commit is removed.
+
+Rebasing is essentailly rewriting history. Rebasing takes the changes from a
+feature branch then places them after the latest commit, making the history
+linear and simple to navigate. 
+
+First we need to switch branches to our feature branch:
+
+`git switch test`
+
+Then run:
+
+`git rebase main`
+
+Now check out the commit history: 
+
+`git log --oneline --graph --all --decorate --parents`
+
+You will see that all of the commits that were on our feature branch are now
+just added to the end of our main branch. Our commit history is now simple and
+linear making restetting very simple.
+
+In preceding sections we will learn about working collabratively on a single
+repository. It is important to know that you should never rebase onto a branch
+that someone else is working on. This will cause the commit history of that
+branch to be vastly different. In this case you should use `git merege`, I will
+explain in detail later.
+
+A good rule of thumb: When contributing to shared projects, use Rebase to keep
+your local history clean and synchronized while you work. When you are ready to
+integrate your work into the main codebase, use Merge to preserve the final
+history of the feature. I will explain more clearly later.
+
+## Reset
 
 To illustrate why this is so powerful, think about the back button in your
 browser. Your browser keeps track of the pages you visit as a kind of history
