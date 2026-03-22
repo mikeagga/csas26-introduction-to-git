@@ -28,12 +28,12 @@ participation. Important commands, ideas and best practices will be reinforced
 through repetition. 
 
 This workshop is intended for beginners; those with limited experience using Git
-in their own projects. Most follow-along instructions will require command-line
-usage, since Git is a command-line utility. I understand that many beginners may
+in their own projects. Most follow-along instructions will require command line
+usage, since Git is a command line utility. I understand that many beginners may
 not feel comfortable with the command line. However, I believe a basic
 understanding of it is valuable in any computing-related field. Therefore, this
 workshop also serves as a starting point for those interested in developing
-their command-line skills through real examples and usage.
+their command line skills through real examples and usage.
 
 **Important**: If you are visiting this repository before the workshop date, please
 review the `universal_setup.md` file. It will guide you through all required setup
