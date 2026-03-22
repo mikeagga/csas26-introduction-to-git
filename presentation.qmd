@@ -2,108 +2,229 @@
 title: "Introduction to Git"
 author: "Michael Agosino"
 date: today
-format:
-  html:
-    theme: flaty 
-                  
-    code-copy: true
-    code-overflow: wrap
-    toc: true 
-    toc-depth: 3
-    toc-location: left 
-    number-sections: true 
-    smooth-scroll: true
-    anchor-sections: true 
-    link-external-newwindow: true
 ---
 
-## Intro
+## Introduction
 
-What is git? 
+Git is a free, open-source, distributed version control system (VCS) designed
+to track changes in source code during software development. It allows
+developers to manage project history, collaborate with others, and work on code
+simultaneously without overwriting each other's work.
 
+Git was created By Linus Torvalds because he needed version control when
+building the Linux kernel. And now, according to the 2022 Stack Overflow
+developer survey, 96% of professional developers use Git.
 
-## Setup repository
+Although, Git is not only a tool for developers, its a way of life. Almost any
+texted based project could be maintained using Git. It is in your best interest
+to track and save your work using Git, your homework, notes, writing and
+personal projects. 
 
-Once you have git installed, or are using some other terminal emulator it is
-time to make your first repo.
+This workshop will take you through the process of creating and managing a
+hypothetical project using Git. Along the way you will learn the commands
+concepts and best practices required manage your own work using Git and GitHub.
+
+## Setting up your repository
+
+If you are on macOS or Linux, you should open your preferred terminal emulator.
+
+If you are using Windows, then I suggest that you use Git Bash. Git Bash
+provides Unix-like command line utility which is what this workshop was
+designed for.
 
 First, change directory into where ever you would like to keep your project
 folder. 
 
 For the purpose of consistency I will use the `~/Documents` folder.
 
-`cd ~/Documents`
+```zsh
+cd ~/Documents
+```
+> `cd` stands for "change directory" the argument we pass is the directory we
+> would like to change into. We will use this command often.
+
+::: {.callout-note}
+Unix-like operating systems have a different directory structure than Windows.
+Although, this command will work as expected if you are using Git Bash.
+:::
 
 Now, create a project directory:
+	
+```zsh
+mkdir ./example_project
+```
+> `mkdir` stands for "make directory" the argument we pass is the name of the
+> directory that we would like to create. The `./` means within our current
+> directory.
 
-`mkdir ./example_project`
 
-Then change directories into it:
+Change directories into the new directory we just created.
 
-`cd ./example_project`
+```zsh
+cd ./example_project
+```
 
-Then lets initaliaze a new git repository:
+Then lets initialize a new Git repository:
+	
+```zsh
+git init
+```
 
-`git init`
+Now lets list all of files within the current directory:
 
-Then lets list all of files within the current directory:
+```zsh
+ls -a
+```
+> `ls` stands for "list segments", it will list the contents of the current
+> directory. The `-a` argument means "all", this allows us to see the hidden
+> files. Hidden files start with `.`.
 
-`ls -a`
+You will see that a new directory: `.git/`. This is what makes a directory a Git
+repository. This `.git/` directory is where Git keeps track of everything it
+needs to provide you will all of its functionality.
 
-You will see that a new directory: `.git/` was created. This is what makes a
-directory a git repository. This `.git/` directory is where `git` keeps track of
-everything it needs to provide you will all of its functionality.
+In all, `git init` is how we tell Git that we would like to track this specific
+directory. Git tracks the directory using the `.git/` sub directory.
+
+Once a directory is initialized and being tracked by Git it is considered a
+**repository**.
 
 ## Configuration
 
-There is a set of commands to configure git through the command line, we will
-start with some basic configuration.
+You can configure Git to your desired behavior using `git config`. Git provides
+many options by default in order to customize your experience. It is not
+possible to remember every option that you may need in the future so you should
+use the [git manual](https://git-scm.com/docs), the internet and AI to help you.
 
-Git comes with configuration on both the global (across repos) and the repo
-level. Although, most of the time you will just use the global configuration.
+Git configuration is hierarchical and can be represented like this:
 
+```{mermaid}
+flowchart TD
+    subgraph SYSTEM["System - All"]
+        subgraph GLOBAL["Global - Current user"]
+            subgraph LOCAL["Local - Current repo"]
+                subgraph WORKTREE["Worktree"]
+                end
+            end
+        end
+    end
 
-Check to see if your username and email are set:
+    style SYSTEM fill:#f9dcc4,stroke:#e07a5f,color:#000
+    style GLOBAL fill:#d4e8c2,stroke:#3a7d44,color:#000
+    style LOCAL fill:#c4d9f9,stroke:#3a5fa8,color:#000
+    style WORKTREE fill:#e8c4f9,stroke:#7a3aa8,color:#000
+```
 
-- `git config --get user.name`
-- `git config --get user.email`
+The more specific a configuration, the higher its priority. For instance, a
+local option will be applied over a global one if they have both set different
+values for the same configuration. Although, most of the time you will just
+configure global settings.
 
-If they are not set, then I reccomend that you change them to your Github
-username, and email.
+In addition, it is important to note that when configuring Git, we are just
+changing a text file with key-value pairs of the desired option.
 
-- `git config --add --global user.name "github_username_here"`
-- `git config --add --global user.emil "email@something.com"`
+| Layer     | Scope                        | Location                                   |
+|-----------|------------------------------|--------------------------------------------|
+| System    | All users on the machine     | `/etc/gitconfig`                           |
+| Global    | Your user account            | `~/.gitconfig`                             |
+| Local     | Single repository            | `.git/config`                              |
+| Worktree  | Single worktree in a repo    | `.git/worktrees/<worktree>/config.worktree`|
+
+: This table shows the location of each configuration file.
+	
+
+Lets try an example:
+
+First lets check to see if your username and email are set:
+
+```zsh
+git config --get user.name
+git config --get user.email
+```
+> The `--get` argument does not change anything, it only prints the
+> corresponding option.
+
+If they are not set, then I recommend that you change them to your GitHub
+username, and email. Since Git configuration is just a file, we could either
+edit the file directly or use the commands that Git provides. It is standard
+practice to use the command line for configuration since there is less chance
+for a syntax error.
+
+```zsh
+git config --add --global user.name "github_username_here"
+git config --add --global user.email "email@something.com"
+```
+> The `--add` argument means we will add the desired value to the configuration.
 
 It is also good practice to set your default branch:
 
-`git config --add --global init.defaultBranch main`
+```zsh
+git config --add --global init.defaultBranch main
+```
 
-It is good to know that when we are configuring git using these commands, git is
-just changing some files for us.
+We can look at the global configuration file using this command:
 
-Global configs are stored in `~/.gitconfig`
+```zsh
+cat ~/.gitconfig
+```
+> `cat` means "concatenate" it allows us to print the contents of a desired
+> file passed as an argument.
 
-Local configs are stored in `./.git/config`
+Alternatively, you could see all active configuration values across all layers
+at once:
 
+```zsh
+git config --list
+```
 
-ADD SOME MORE ABOUT CONFIGURATION.
+Your terminal may print something like this:
+
+```
+[user]
+        name = mikeagga
+        email = mikeag916@gmail.com
+[init]
+        defaultBranch = master
+        defaultBranch = main
+```
+
+As you can see `user.name` created a section `[user]`. Within the section is
+`name = mikeagga`, this corresponds to the earlier command.
+
+In addition, you may notice that there are two `defaultBranch` keys. This
+happened because I used `git config --add` twice. In this case git will use the
+latest entry which is `main`. You should use `git config --set`, which will
+override the configuration if said key-value pair already exists.
+
+Although Git provides many configuration options that effect behavior, there is
+nothing stopping you from setting whatever options that you would like.
+
+Lastly, you should note that there are many, many different ways to configure
+Git and I have only explained the basics.
+
 
 ## Basics
 
-The main functionality of git is that you get to save your work. Git is powerful
+The main functionality of Git is that you get to save your work. Git is powerful
 because the user has full control over how they choose to save. There are a few
-states that git may view a file to be in.
+states in which you should label files that will tell Git which file to save.
 
-Try running `git status` in your new project repository.
+Run this command in your repository.
 
-This command shows us the current status of our repsitory, it will show you
-which files are untracked, staged, and commited.
+```zsh
+git status
+```
 
-- `untracked` - Git will not track this file.
-- `staged` - Marked for inculsion in the next commit.
-- `commited` - Saved to the repositories history.
+This command shows us the current status of our repository, it will show you
+which files are untracked, staged, and committed.
 
-`git status` is very useful to uderstand the current state of your repository,
+| State       | Description                                  |
+|-------------|----------------------------------------------|
+| `untracked` | Git will not track this file.                |
+| `staged`    | Marked for inclusion in the next commit.     |
+| `committed` | Saved to the repository's history.           |
+
+`git status` is very useful to understand the current state of your repository
 so that you could decide what to do next. We will use it often in this workshop.
 
 ### First Commit
@@ -112,7 +233,11 @@ Now lets learn how to save our work.
 
 Make sure that you are in the root of you project directory:
 
-`pwd` - Print working directory.
+```zsh
+pwd
+```
+> `pwd` means "print working directory" it will print the path of your current
+> directory.
 
 Now lets make create a new file:
 
@@ -120,7 +245,7 @@ If you are familiar with a terminal based text editor like vim or nano, I
 encourage you to use it here. If not, open this file with your favorite text
 editor.
 
-Create a new file: `hello.md`
+Create a new file: "hello.md"
 
 Then write "hello world!" into the file and save it, and head back to our
 teminal instnace.
