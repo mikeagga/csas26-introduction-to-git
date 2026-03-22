@@ -17,8 +17,12 @@ format:
     link-external-newwindow: true
 ---
 
+## Intro
 
-## Setup repository.
+What is git? 
+
+
+## Setup repository
 
 Once you have git installed, or are using some other terminal emulator it is
 time to make your first repo.
@@ -84,7 +88,7 @@ Local configs are stored in `./.git/config`
 
 ADD SOME MORE ABOUT CONFIGURATION.
 
-## Baiscs
+## Basics
 
 The main functionality of git is that you get to save your work. Git is powerful
 because the user has full control over how they choose to save. There are a few
@@ -789,6 +793,7 @@ Use: `git merge temp_branch` to perform a fast-forward merge.
 
 Now it is a good practice to delete the branch after merge using:
 `git branch -d temp_branch`.
+
 
 
 

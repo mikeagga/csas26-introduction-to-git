@@ -24,7 +24,8 @@ Topics to expect
 - GitHub basics
 
 This workshop teaches core concepts through real-world examples and active
-participation.
+participation. Important commands, ideas and best practices will be reinforced
+through repetition. 
 
 This workshop is intended for beginners; those with limited experience using Git
 in their own projects. Most follow-along instructions will require command-line
