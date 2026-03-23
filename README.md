@@ -35,6 +35,8 @@ understanding of it is valuable in any computing-related field. Therefore, this
 workshop also serves as a starting point for those interested in developing
 their command line skills through real examples and usage.
 
-**Important**: If you are visiting this repository before the workshop date, please
+
+### **Important**
+If you are visiting this repository before the workshop date, please
 review the `universal_setup.md` file. It will guide you through all required setup
 on your device and should only take a few minutes.
