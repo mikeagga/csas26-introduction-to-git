@@ -188,50 +188,56 @@ Your terminal may print something like this:
         defaultBranch = main
 ```
 
-As you can see `user.name` created a section `[user]`. Within the section is
-`name = mikeagga`, this corresponds to the earlier command.
+We can interpret the structure of the Git configuration files. These files are
+broken into sections which contain key value pairs. In the example above there
+are two sections. These sections correspond to the command we ran earlier: `git
+config --add --global init.defaultBranch main`. The first value `init` becomes
+the section. The second value `defaultBranch` becomes key. Lastly, `main` will
+be the value.
 
 In addition, you may notice that there are two `defaultBranch` keys. This
-happened because I used `git config --add` twice. In this case git will use the
+happened because I used `git config --add` twice. In this case Git will use the
 latest entry which is `main`. You should use `git config --set`, which will
 override the configuration if said key-value pair already exists.
 
 Although Git provides many configuration options that effect behavior, there is
-nothing stopping you from setting whatever options that you would like.
+nothing stopping you from setting whatever options that you would like
+arbitrarily.
 
-Lastly, you should note that there are many, many different ways to configure
-Git and I have only explained the basics.
-
+Lastly, you may come across many different commands and methods of configuring
+Git. Although, a conceptual understanding of how the configuration files are
+structured will make interpreting these commands and methods just a matter of
+remembering procedure.
 
 ## Basics
 
-The main functionality of Git is that you get to save your work. Git is powerful
-because the user has full control over how they choose to save. There are a few
-states in which you should label files that will tell Git which file to save.
+The core functionality of Git is the ability to save your work, this is called a
+commit. Git gives you the ability to control which files are committed and
+when. Git will label any given file with one of three states. These states are
+how we control what files are committed, and what files are not.
 
-Run this command in your repository.
+
+| State       | Description                                     |
+|-------------|-------------------------------------------------|
+| `untracked` | Git is not tracking this file at all.           |
+| `modified`  | A tracked file that has changes not yet staged. |
+| `staged`    | Marked for inclusion in the next commit.        |
+
+Run this command in your repository:
 
 ```zsh
 git status
 ```
+This command allows us to check how Git has labeled each file in our repository.
+Currently our repository is empty, so there is nothing to see.
 
-This command shows us the current status of our repository, it will show you
-which files are untracked, staged, and committed.
+Now lets make create a new file:
 
-| State       | Description                                  |
-|-------------|----------------------------------------------|
-| `untracked` | Git will not track this file.                |
-| `staged`    | Marked for inclusion in the next commit.     |
-| `committed` | Saved to the repository's history.           |
+If you are familiar with a terminal based text editor like vim or nano I
+encourage you to use it here. If not, you can load this current directory using
+an IDE like VScode for example.
 
-`git status` is very useful to understand the current state of your repository
-so that you could decide what to do next. We will use it often in this workshop.
-
-### First Commit
-
-Now lets learn how to save our work.
-
-Make sure that you are in the root of you project directory:
+You should check your working directory with this command:
 
 ```zsh
 pwd
@@ -239,51 +245,73 @@ pwd
 > `pwd` means "print working directory" it will print the path of your current
 > directory.
 
-Now lets make create a new file:
+Within this directory create a new file called "hello.md".
 
-If you are familiar with a terminal based text editor like vim or nano, I
-encourage you to use it here. If not, open this file with your favorite text
-editor.
+Within the file write:
 
-Create a new file: "hello.md"
+```
+Hello world!
+```
+Save it, then head back into your terminal instance.
 
-Then write "hello world!" into the file and save it, and head back to our
-teminal instnace.
+```zsh
+git status
+```
+You will see that the new file "hello.md" that we just created is considered
+untracked. We would like to keep track of "hello.md", so run:
 
-Run: `git status`
-
-You will see that the new file "hello.md" that we just created is untracked.
-
-We would like to keep track of "hello.md" so lets run:
-
-`git add hello.md`
+```zsh
+git add hello.md
+```
+> You can stage an entire file or sub directory. You can even stage the entire
+> repository using `git add .`.
 
 Now, check the status again:
 
-`git status`
+```zsh
+git status
+```
 
-You will see that "hello.md" is now a staged file.
+You will see that "hello.md" is now a staged file. Meaning it will be included
+in our next commit.
 
-Git does not store entire files, nor does it store the difference between
-changed files. It is more acurate to view a commit as a picture, or a
-screenshot of your project directory at the time of your commit. 
+Finally, we can make a commit:
 
-`git commit -m "Add hello.md"`
+```zsh
+git commit -m "Add hello.md"
+```
 
 The `git commit` command will save a snapshot of the staged files, the argument
 `-m` means that the preceding text within the quotation marks will be the commit
 message. Our commit message should be short and informative.
 
+::: {.callout-note}
+Git does not store entire files, nor does it track the difference between
+changed files. It is more accurate to view a commit as a picture, or a
+screenshot of your project directory at the time of your commit. 
+:::
+
+In general, this is the core functionality of Git. Create or edit a file, stage
+it using `git add`, then commit it using `git commit`. These commands along with
+`git status` and `git push` may account for around 90% of your Git usage.
+
+It is a good idea to commit your work often especially when coding. You will be
+able to track all of the changes that you have made, and look back at your
+project in earlier stages. In addition, there is very little downside to having
+many commits. According to the Git website: "As of 2025, the current version of
+the Linux kernel's source code is 1.7 GB. Git stores the full history of the
+Linux project (1.4 million commits) in only 5.5 GB.". Git is designed to be very
+efficient with storage, and very powerful in utility. 
+
+
 ## Internals
 
-Now that we have learned how to save or work, lets learn how git actually keeps
-track of everything. Understanding a little about the internals of git will help
-you to understand some best practices and work-flow a bit better. It is also
-interesting!
 
 We can view our commit history using the command:
 
-`git log`
+```zsh
+git log
+```
 
 `git log` is very useful in understanding the structures of your commits, we
 will use it often in this wokrshop.
@@ -300,7 +328,7 @@ Date:   Sun Feb 15 16:14:11 2026 -0500
 
 We can learn a lot about how git works through investigating this `commit` line.
 
-This string of seemingly random characters is a hash. It is how git efficiently
+This string of seemingly random characters is a hash. It is how Git efficiently
 stores and identifies everything it needs to manage your project. 
 
 Git provides a very useful inspecting these hashes:
@@ -548,7 +576,7 @@ There are a few basic types of merges that will be good to know about.
 
 The first is a fast forward merge. This is when you create a commit on a new
 branch, and there have been no new commits on the main branch. In this case, you
-could imagine that git treats this branch as now just part of main.
+could imagine that Git treats this branch as now just part of main.
 
 INSERT IMAGE OF FFMERGE
 
