@@ -37,7 +37,7 @@ folder.
 
 For the purpose of consistency I will use the `~/Documents` folder.
 
-```zsh
+```bash
 cd ~/Documents
 ```
 > `cd` stands for "change directory" the argument we pass is the directory we
@@ -50,7 +50,7 @@ Although, this command will work as expected if you are using Git Bash.
 
 Now, create a project directory:
 	
-```zsh
+```bash
 mkdir ./example_project
 ```
 > `mkdir` stands for "make directory" the argument we pass is the name of the
@@ -60,19 +60,19 @@ mkdir ./example_project
 
 Change directories into the new directory we just created.
 
-```zsh
+```bash
 cd ./example_project
 ```
 
 Then lets initialize a new Git repository:
 	
-```zsh
+```bash
 git init
 ```
 
 Now lets list all of files within the current directory:
 
-```zsh
+```bash
 ls -a
 ```
 > `ls` stands for "list segments", it will list the contents of the current
@@ -137,7 +137,7 @@ Lets try an example:
 
 First lets check to see if your username and email are set:
 
-```zsh
+```bash
 git config --get user.name
 git config --get user.email
 ```
@@ -150,7 +150,7 @@ edit the file directly or use the commands that Git provides. It is standard
 practice to use the command line for configuration since there is less chance
 for a syntax error.
 
-```zsh
+```bash
 git config --add --global user.name "github_username_here"
 git config --add --global user.email "email@something.com"
 ```
@@ -158,13 +158,13 @@ git config --add --global user.email "email@something.com"
 
 It is also good practice to set your default branch:
 
-```zsh
+```bash
 git config --add --global init.defaultBranch main
 ```
 
 We can look at the global configuration file using this command:
 
-```zsh
+```bash
 cat ~/.gitconfig
 ```
 > `cat` means "concatenate" it allows us to print the contents of a desired
@@ -173,7 +173,7 @@ cat ~/.gitconfig
 Alternatively, you could see all active configuration values across all layers
 at once:
 
-```zsh
+```bash
 git config --list
 ```
 
@@ -212,7 +212,7 @@ remembering procedure.
 ## Basics
 
 The core functionality of Git is the ability to save your work, this is called a
-commit. Git gives you the ability to control which files are committed and
+**commit**. Git gives you the ability to control which files are committed and
 when. Git will label any given file with one of three states. These states are
 how we control what files are committed, and what files are not.
 
@@ -225,7 +225,7 @@ how we control what files are committed, and what files are not.
 
 Run this command in your repository:
 
-```zsh
+```bash
 git status
 ```
 This command allows us to check how Git has labeled each file in our repository.
@@ -239,7 +239,7 @@ an IDE like VScode for example.
 
 You should check your working directory with this command:
 
-```zsh
+```bash
 pwd
 ```
 > `pwd` means "print working directory" it will print the path of your current
@@ -254,13 +254,13 @@ Hello world!
 ```
 Save it, then head back into your terminal instance.
 
-```zsh
+```bash
 git status
 ```
 You will see that the new file "hello.md" that we just created is considered
 untracked. We would like to keep track of "hello.md", so run:
 
-```zsh
+```bash
 git add hello.md
 ```
 > You can stage a file or entire sub directory. You can even stage the entire
@@ -268,7 +268,7 @@ git add hello.md
 
 Now, check the status again:
 
-```zsh
+```bash
 git status
 ```
 
@@ -277,7 +277,7 @@ in our next commit.
 
 Finally, we can make a commit:
 
-```zsh
+```bash
 git commit -m "Add hello.md"
 ```
 
@@ -313,7 +313,7 @@ later concepts a bit more simple.
 
 We can view our commit history using this command:
 
-```zsh
+```bash
 git log
 ```
 
@@ -337,7 +337,9 @@ contains information about our commit.
 
 We can inspect the contents of this commit hash using this command:
 
-`git cat-file -p YOUR_COMMIT_HASH_HERE`
+```bash
+git cat-file -p YOUR_COMMIT_HASH_HERE
+```
 
 > You only need to provide the first 4 characters of the hash, so no need to
 > type it all out.
@@ -359,7 +361,9 @@ tree" at the time of the commit.
 
 We can also inspect this tree hash:
 
-`git cat-file -p YOUR_TREE_HASH_HERE`
+```bash
+git cat-file -p YOUR_TREE_HASH_HERE
+```
 
 This is the result:
 
@@ -372,7 +376,9 @@ file. This file is represented by another hash called a **blob**.
 
 We can inspect the contents of this blob:
 
-`git cat-file -p YOUR_BLOB_HASH_HERE`
+```bash
+git cat-file -p YOUR_BLOB_HASH_HERE
+```
 
 This is the result:
 
@@ -419,18 +425,18 @@ Save the file. Then, back in your terminal:
 
 Mark the file as staged:
 
-```zsh
+```bash
 git add contents.md
 ```
 
 Commit the file:
 
-```zsh
+```bash
 git commit -m "Added contents"
 ```
 Then, view the commit history:
 
-```zsh
+```bash
 git --no-pager log --oneline --parents
 ```
 > The additional arguments just make the result easier to interpret. 
@@ -450,7 +456,7 @@ structure.
 
 We can investigate our new commit's hash:
 
-```zsh
+```bash
 git cat-file -p YOUR_COMMIT_HASH_HERE
 ```
 
@@ -468,7 +474,7 @@ Notice that the tree hash is different then the tree hash of our first commit.
 
 Lets investigate the contents of this new tree hash:
 
-```zsh
+```bash
 git cat-file -p YOUR_TREE_HASH_HERE
 ```
 
@@ -548,7 +554,7 @@ flowchart LR
 
 We can list all of the branches in our repository with:
 
-```zsh
+```bash
 git branch
 ```
 
@@ -557,14 +563,14 @@ earlier.
 
 Create a new branch:
 
-```zsh
+```bash
 git branch test
 ```
 > `test` is the name of the branch that we are creating.
 
 We can then switch to a specified branch. 
 
-```zsh
+```bash
 git switch test
 ```
 
@@ -582,19 +588,19 @@ Save it, then back in the terminal:
 
 Stage "groceries.md":
 
-```zsh
+```bash
 git add groceries.md
 ```
 
 Then commit it:
 
-```zsh
+```bash
 git commit -m "added grocery list"
 ```
 
 We can again look at the commit history:
 
-```zsh
+```bash
 git log
 ```
 
@@ -603,13 +609,13 @@ addition the commit that we have just made is also listed.
 
 Now switch back to `main`:
 
-```zsh
+```bash
 git switch main
 ```
 
 Now use the following in order to compare the commit history between branches:
 
-```zsh
+```bash
 git log
 ```
 
@@ -622,7 +628,11 @@ in a new direction, without effecting the original project.
 
 Lets create another commit on `main`
 
-Double check that you are still on the primary branch `git branch`
+Double check that you are still on the primary branch
+
+```bash
+git branch
+```
 
 Create a new file: "movies.md"
 
@@ -634,185 +644,228 @@ The Dark Night
 Back To The Future
 ```
 
-Now, `add` and `commit` this file be sure that you are on `main` and use the
+Now, save, `add` and `commit` this file be sure that you are on `main` and use the
 commit message "added movies.md".
 
 Run the following:
 
-```zsh
+```bash
 git log --oneline --graph --all --decorate --parents
 ```
 > The argument `--decorate` will allow us to see the commit history across
-> branches. The rest of the arguments for your convince. 
+> branches. The other arguments make the result easier to read.
 
-You could see that these most recent commits share the same parent. This is the
-idea behind divergence and illustrates how branches represent a new commit
-history at a chosen point.
+You could see that these most recent commits share the same parent. This
+illustrates how branches represent a new commit history at a chosen point.
 
 ## Merge
 
+We know how to branch away from main, but what if we would like to incorporate
+changes from our feature branch into our main branch?
 
 Imagine you are using Git to manage the creation of a Website. Imagine that you
 have created a new branch to test some different colors for the background of
-this website. Now lets say that you like how these changes look, and want the
-main branch to incorporate the changes. There are a few ways to do this, one way
-would be to merege the branches. 
+your website. Now lets say that you like how these changes look, and want the
+main branch to incorporate the new colors. There are a few ways to do this, one
+way would be to merge your feature branch into your main branch.
 
+There are a few basic types of merges.
 
-There are a few basic types of merges that will be good to know about.
-
-The first is a fast forward merge. This is when you create a commit on a new
+The first is a **fast forward merge**. This is when you create a commit on a new
 branch, and there have been no new commits on the main branch. In this case, you
-could imagine that Git treats this branch as now just part of main.
+could imagine that Git treats this branch as now just part of main. More
+precisely, Git simply moves the main pointer forward to the tip of the feature
+branch. No new commit is created.
 
-INSERT IMAGE OF FFMERGE
+```python
+# animate fast forward merge, or maybe just show it.
+```
 
-The second is a merge commit. This is where you would like to merge your feature
-onto main, but there has been a commit on main. Git deals with this deviation
-through creating a new commit which connects the deviated histories of both
-branches.
+The second is a **merge commit**. This is where you would like to merge your
+feature onto main, but there has been a commit on main. Git navigates these
+parallel histories in branches through creating a new commit which connects the
+diverged histories of both branches.
 
 INSERT IMAGE OF merge commit.
 
-In our case, we have already moved forward with main, after creating a new
-feature branch. Thereby we will be using a merege commit.
+In our case, we have already committed to `main`, after creating a new feature
+branch. Thereby we will be using a merge commit.
 
-Lets merge our branches to demostrate what this may look like:
+Let's merge our branches using a merge commit:
 
 Double check that you are on the correct branch. When merging branches, you
-should be sure that you are on the brach that you would like to incorperate the
+should be sure that you are on the branch that you would like to incorporate the
 changes onto. For us, that is `main`.
 
-then use `git merge test`
+Then use
 
-where `test` is the branch to merge.
+```bash
+git merge test
+```
+> `test` is the branch to merge onto `main`.
 
 Now look at the commit history:
-`git log --oneline --graph --all --decorate --parents`
+
+```bash
+git log --oneline --graph --all --decorate --parents
+```
 
 You will see that now this merge commit has two parents, one from the `test`
 branch and the other from `main`.
 
-We know that git allows you to manage your projects history, one significant
-part of managing a projects history is that you may have to revert to older
-versions. Say for instance you commit a change that breaks the project. Git
+We know that Git allows you to manage your projects history, one significant
+part of managing a projects history is that you may have to reset to older
+versions. Say for instance you commit a change that breaks your project. You
+could reset your repository to a time before you made this bad commit.
 
-It may be apparent that since a merege commit has two parents, reverting will
-get complicated. Since the commit history is split between two branches, git
-will give you a difficult time. This will cause many headaches if you happen to
-need to revert to a point before a merge commtit. Therefore it is always best to
-avoid merge commits and only use fast forward merge. It is best practice to
-instead use `rebase` when working in a local repository.
+It may be apparent that since a merge commit has two parents, resetting will
+get complicated. Since the commit history is split between two branches. This
+will cause many headaches if you happen to need to reset to a point before a
+merge commit. Therefore it is usually best to avoid merge commits and only use
+fast forward merge when applicable. It is a good practice to instead **rebase**
+your feature branch.
 
 ## Rebase
 
+I previously mentioned that a branch is a pointer to the latest commit on that
+branch (the tip). When you make new commits, this pointer automatically
+advances. Rebasing is a means of changing the base of your branch, usually to
+the tip of another branch like `main`.
+
 First we will undo the merge commit that we just made:
 
-`git reset --hard HEAD~1`
+``` bash
+git reset --hard HEAD~1
+```
+> We will learn what this command does in the next section.
 
+::: {.callout-note}
 This is safe since we have not made any other commits, and we have not pushed it
-to any remote repo.
+to any remote repository.
+:::
 
-We will learn what this command does in the next section.
+You should look at the commit history with: 
 
-If you look at the commit history with: 
-`git log --oneline --graph --all --decorate --parents`
-
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 You will see that the merge commit is removed.
 
-Rebasing is essentailly rewriting history. Rebasing takes the changes from a
-feature branch then places them after the latest commit, making the history
-linear and simple to navigate. 
+In order to rebase `test` we need to switch branches to our feature branch:
 
-First we need to switch branches to our feature branch:
-
-`git switch test`
+``` bash
+git switch test
+```
+> Unlike merging, you should be on the feature branch, not main.
 
 Then run:
 
-`git rebase main`
+``` bash
+git rebase main
+```
 
 Now check out the commit history: 
 
-`git log --oneline --graph --all --decorate --parents`
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
+You will see that the commits from our feature branch have been recreated on top
+of the tip of main. It is important to note that these are brand new commits
+with different hashes. Rebasing rewrites history rather than simply relocating
+commits. Our commit history is now linear, making it much easier to navigate and
+reset if needed. Take note that the feature branch still exists, its pointer now
+sits at the tip of the replayed commits.
 
-You will see that all of the commits that were on our feature branch are now
-just added to the end of our main branch. Our commit history is now simple and
-linear making restetting very simple. Take note that rebasing simply moved where
-our branch splits from our main branch. The branch still exists.
+It is important to know that you should never rebase onto a branch that someone
+else is working on. This will cause the commit history of that branch to be
+vastly different. In this case you should use `git merge`.
 
-In preceding sections we will learn about working collabratively on a single
-repository. It is important to know that you should never rebase onto a branch
-that someone else is working on. This will cause the commit history of that
-branch to be vastly different. In this case you should use `git merege`, I will
-explain in detail later.
-
-A good rule of thumb: When contributing to shared projects, use Rebase to keep
+A good rule of thumb: When contributing to shared projects, use rebase to keep
 your local history clean and synchronized while you work. When you are ready to
-integrate your work into the main codebase, use Merge to preserve the final
+integrate your work into the main codebase, use merge to preserve the final
 history of the feature.
 
 We can now imagine that we are done working on this new feature branch that we
 have created, meaning that we no longer need this branch. After rebasing, our
 feature branch is located at the tip of our main branch. This means that we
-could now safely fast forward merge this branch.
+could now safely fast forward merge this branch onto `main`.
 
 Be sure that you are on the main branch.
 
-`git switch main`
+``` bash
+git switch main
+```
 
-then run: `git merge test` in order to merge our feature branch onto main.
+Then merge the feature branch onto main:
 
-if you then run:
-`git log --oneline --graph --all --decorate --parents`
+``` bash
+git merge test
+```
+
+If you then run:
+
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 
 You will notice that no merge commit is created and `test` has now been merged
 onto main.
 
-if you then run `git branch`, you will see that our feature branch still exists.
+If you then run `git branch`, you will see that our feature branch still exists.
 
 Since we are done using this branch, we will remove it using:
 
-`git branch -d test`
+``` bash
+git branch -d test
+```
+> the argument `-d` means delete.
 
 We have successfully implemented our feature branch onto our main branch so that
-our commit history remains clean and cleaned up our repository to only contain
-our main branch.
+our commit history remains clean. We then cleaned up our repository to only
+contain our main branch.
 
 
 ## Reset
 
-We took a look at rebasing so that you have a more effective linear structrure
-to your commit history. Since git gives us full control over how our commit
+We took a look at rebasing so that you have a more effective linear structure
+to your commit history. Since Git gives us full control over how our commit
 history is structured, walking back up our commit tree with a reset becomes very
 powerful.
 
 You will have noticed that when looking at our commit history using `git log`
-that the latetest commit is always labled with `HEAD`. `HEAD` is what git uses
+that the latest commit is always labeled with `HEAD`. `HEAD` is what Git uses
 to mark whichever the latest commit on whichever branch that you are on.
 
-There are three types of resets that git provides. The first that we will use is
-a soft reset. A soft reset moves the `HEAD` pointer back to a specified point,
+There are three types of resets that Git provides. The first that we will use is
+a **soft reset**. A soft reset moves the `HEAD` pointer back to a specified point,
 thus undoing the commits until that point, this type of reset does not alter
 your working tree in any way, nor does it effect your staged files. So only the
 commit history is effected.
 
 Run:
 
-`git reset --soft HEAD~1`
+``` bash
+git reset --soft HEAD~1
+```
 
 The last argument `HEAD~1` just means that we will reset 1 commit back from the
 head pointer. In addition, you could also use the commit hash of a specific
-commit instead of `HEAD~1`. Remember you could see the commit hash using `git
-log`
+commit instead of `HEAD~1`.
+> Remember you could see the commit hash using `git log`
 
-Now look at the commit history.
+Now look at the commit history:
 
-`git log --oneline --graph --all --decorate --parents`
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 
-You will see that our previous commit gone.
+You will see that our previous commit is gone.
 
-Now run: `git status`
+Now run: 
+
+``` bash
+git status
+```
 
 You will see that the contents of the previous commit are still tracked or
 staged. 
@@ -825,7 +878,7 @@ the commit. For now, just re-commit the files that are currently staged.
 One use of `git reset --soft` is you would like to change the commit message of
 the most recent commit. You should also use soft resets if you forgot to stage a
 change that you would like to have in said commit. In addition, you could soft
-reset multiple commtis if you would like to group all of the commits into one.
+reset multiple commits if you would like to group all of the commits into one.
 
 The next type of reset is a mixed reset. This reset is very similar to soft
 reset, but does not re-stage the files. You can do it using: `git reset HEAD~1`
@@ -833,10 +886,10 @@ reset, but does not re-stage the files. You can do it using: `git reset HEAD~1`
 There is no need to try it now, just keep it in mind if you need to use it at
 some point.
 
-Lastly is hard reset. This will take your repository back to the time of the
+Lastly is **hard reset**. This will take your repository back to the time of the
 specified commit. 
 
-To illustate this, lets first take a look at our current repository with:
+To illustrate this, lets first take a look at our current repository with:
 
 `ls`
 
@@ -846,51 +899,65 @@ Make a new file called: "bad_mistake.md"
 
 Within the file write:
 
-"This is a super bad mistake that broke my project."
+```
+This is a super bad mistake that broke my project.
+```
 
 Then stage the file, and commit it with message: "mistake commit"
 
 Also take note of the commit tree.
 
-`git log --oneline --graph --all --decorate --parents`
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 
-Now, lets hard reset to a time where we didn't commit a project breaking file.
+Now, lets hard reset to a time where we didn't commit a project breaking change.
 
 Run: `git reset --hard HEAD~1`
 
-We can then use `ls` to see that `mistake.md` is no in the repository. We could
+We can then use `ls` to see that "mistake.md" is not in the repository. We could
 also take a look at the commit history once again.
 
-`git log --oneline --graph --all --decorate --parents`
-
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 You will see that the mistake commit is gone entirely and our working tree is
 reset to how it was after the previous commit.
 
 This may be exactly what you would like to do, but say for instance you realized
 that there was something important in the last commit that you just hard reset.
-Luckily git has a way to help you out of this situation.
+Luckily Git has a way to help you out of this situation.
 
-Git keeps track of ever time the head pointer moves, this is called the reflog.
+Git keeps track of ever time the `HEAD` pointer moves, this is called the reflog.
 
-We can use `git reflog` to view the changes to the head pointer that git has
-tracked.
+In order to view the changes to the `HEAD` pointer that Git has tracked we can
+use:
+
+``` bash
+git reflog
+```
 
 To reset to a time before we hard reset, we could take a look at the reflog and
 find the commit before the reset and make note of the commit hash.
 
-Then use: `git reset --hard HEAD@{1}` 
+Then use:
 
-**Note that we could either use the commit hash or use pointer arithmatic,
-just be sure that it is correct.**
+``` bash
+git reset --hard HEAD@{1}`
+```
+> We could either use the commit hash or use pointer arithmetic, just be sure
+> that it is correct.
 
-We could now run `ls`, you will notice that `bad_mistake.md` is back in the
+We could now run `ls`, you will notice that "bad_mistake.md" is back in the
 working tree.
 
 And if you take a look at the log:
 
-`git log --oneline --graph --all --decorate --parents`
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
 
-You will see that "mistake commit" is back in the commit history!!
+You will see that "mistake commit" is back in the commit history.
 
 ## Remote
 
