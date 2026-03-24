@@ -263,7 +263,7 @@ untracked. We would like to keep track of "hello.md", so run:
 ```zsh
 git add hello.md
 ```
-> You can stage an entire file or sub directory. You can even stage the entire
+> You can stage a file or entire sub directory. You can even stage the entire
 > repository using `git add .`.
 
 Now, check the status again:
@@ -304,41 +304,43 @@ Linux project (1.4 million commits) in only 5.5 GB.". Git is designed to be very
 efficient with storage, and very powerful in utility. 
 
 
-## Internals
+## Structure of a commit
 
+Git keeps track of all of our commits and all of our files within our directory
+at the time of the commit. Understanding a little about how Git keeps track of
+everything will help demystify Git conceptually and will make understanding
+later concepts a bit more simple.
 
-We can view our commit history using the command:
+We can view our commit history using this command:
 
 ```zsh
 git log
 ```
 
-`git log` is very useful in understanding the structures of your commits, we
-will use it often in this wokrshop.
+This command is very useful for understanding the structure of your commits. We
+will use it often. 
 
 Currently, we only have a single commit. Which should look something like this:
 
 ```
-commit b556efb1dcb4bdbfd971b615e8dae4cd26882f91 (HEAD -> master)
+commit b556efb1dcb4bdbfd971b615e8dae4cd26882f91 (HEAD -> main)
 Author: mikeagga <mikeag916@gmail.com>
 Date:   Sun Feb 15 16:14:11 2026 -0500
 
     Add hello.md
 ```
 
-We can learn a lot about how git works through investigating this `commit` line.
+This string of seemingly random characters is a hash. This is a method of
+condensing data in a way that is reproducible. Specifically, it's a SHA-1 hash
+of the commit object's contents. This is called the **commit hash** and it
+contains information about our commit.
 
-This string of seemingly random characters is a hash. It is how Git efficiently
-stores and identifies everything it needs to manage your project. 
-
-Git provides a very useful inspecting these hashes:
+We can inspect the contents of this commit hash using this command:
 
 `git cat-file -p YOUR_COMMIT_HASH_HERE`
 
-**NOTE: You only need to provide the first 4 characters of the hash, so no
-need to type it all out.**
-
-Git tells us exactly what information is provided by the commit hash:
+> You only need to provide the first 4 characters of the hash, so no need to
+> type it all out.
 
 ```
 tree 9155d858058637fd4552c960d7f11546e579850b
@@ -348,10 +350,14 @@ committer mikeagga <mikeag916@gmail.com> 1771190051 -0500
 Add hello.md
 ```
 
-We see another hash, this time it is a tree hash. This is gits way of storing
-your project directory.
+It appears that `git log` uses some information from the commit hash in order to
+print what it needs.
 
-We could then cat out this as well.
+In addition our commit hash contains another hash, this time it is a **tree
+hash**. This hash contains information about the working directory or "working
+tree" at the time of the commit.
+
+We can also inspect this tree hash:
 
 `git cat-file -p YOUR_TREE_HASH_HERE`
 
@@ -361,10 +367,10 @@ This is the result:
 100644 blob a0423896973644771497bdc03eb99d5281615b51    hello.md
 ```
 
-Now we can see a blob hash, this is how files are tracked using git. We can see
-the `hello.md` the file that we commited.
+We have only committed one file therefore our working tree hash only stores one
+file. This file is represented by another hash called a **blob**.
 
-We can once again see what this hash means to git.
+We can inspect the contents of this blob:
 
 `git cat-file -p YOUR_BLOB_HASH_HERE`
 
@@ -373,16 +379,16 @@ This is the result:
 ```
 hello world!
 ```
+We can see that a blob is how Git stores the contents of our files.
 
-It's the contents of our commited file!
-
-In summary, git uses three types of objects, each identified by a hash:
+In summary, Git uses three primary types of objects, each identified by a hash:
 
 | Object | What it stores |
 |---|---|
 | Commit | Metadata (author, date, message) and a pointer to a tree. |
 | Tree | A snapshot of your project directory, containing pointers to blobs. |
 | Blob | The raw contents of a single file. |
+: There are more object types but they are beyond the scope of this explanation.
 
 
 ```{mermaid}
@@ -394,37 +400,61 @@ flowchart LR
     Commit --> Tree
     Tree --> Blob
 ```
+> This is the structure that we have observed.
 
-Now lets make another commit:
+In order to demonstrate how Git efficiently tracks many files, lets make another
+commit.
 
-First create a new file using your text editor or IDE.
+First, within your repository create a new file using your text editor or IDE.
 
-Call this file "contents.md"
+Call this file: "contents.md"
 
-Within this file, type: "contents" save it.
-
-Then back in your terminal:
-
-`git add contents.md` to mark the file as staged.
-
-`git commit -m "Added contents"` to commit the file to your history.
-
-Now run `git --no-pager log --oneline --parents` to view our commit history in a
-more compact way.
+Within this file write:
 
 ```
-f700dd5 b556efb (HEAD -> master) added contents
+contents
+```
+
+Save the file. Then, back in your terminal:
+
+Mark the file as staged:
+
+```zsh
+git add contents.md
+```
+
+Commit the file:
+
+```zsh
+git commit -m "Added contents"
+```
+Then, view the commit history:
+
+```zsh
+git --no-pager log --oneline --parents
+```
+> The additional arguments just make the result easier to interpret. 
+
+The result:
+```
+f700dd5 b556efb (HEAD -> main) added contents
 b556efb Add hello.md
 ```
 
 Our second commit has two hashes next to it, the first hash is its own, the
-second is its parent. Our orginal commit had no parents, since it was the first.
+second is its parent. Our original commit had no parents, since it was the
+first.
 
+Each subsequent commit will point to the last, this is what gives commits
+structure.
 
-we can investigate our new commits hash:
+We can investigate our new commit's hash:
 
-`git cat-file -p YOUR_COMMIT_HASH_HERE`
+```zsh
+git cat-file -p YOUR_COMMIT_HASH_HERE
+```
 
+The result:
 ```
 tree f9d01e625a573fa544c00a0d4acf98c985006c71
 parent b556efb1dcb4bdbfd971b615e8dae4cd26882f91
@@ -434,19 +464,24 @@ committer mikeagga <mikeag916@gmail.com> 1772047353 -0500
 added contents
 ```
 
-Notice that the tree hash is differnt then the the tree hash of our first
-commit.
+Notice that the tree hash is different then the tree hash of our first commit.
 
-lets investigate it:
+Lets investigate the contents of this new tree hash:
 
-`git cat-file -p YOUR_TREE_HASH_HERE`
+```zsh
+git cat-file -p YOUR_TREE_HASH_HERE
+```
 
+The result:
 ```
 100644 blob 12f00e90b6ef79117ce6e650416b8cf517099b78    contents.md
 100644 blob a0423896973644771497bdc03eb99d5281615b51    hello.md
 ```
+Now there are two blobs which represent both files at the time of our latest
+commit. Notice that: since we never changed hello.md, the blob hash remains the
+same thought the tree hash has changed.
 
-Notice that, since we never changed hello.md, the hash remains the same.
+We can represent this behavior with a graph:
 
 ```{mermaid}
 flowchart LR
@@ -466,42 +501,76 @@ flowchart LR
 ```
 
 Each commit points to its own tree, which represents the state of your project
-at that moment in time. But since hello.md was unchanged, both trees point to
-the exact same blob.
+at that moment in time. Since "hello.md" was unchanged, both trees point to
+the exact same blob. 
 
-This is why git is so efficient even on large projects with long histories. Only
-the files that actually changed take up new space.
+This use of structured hashing is what makes Git so efficient even with large
+projects with long histories. Only the files that have changed take up new
+space.
 
 ## Branching
 
-Now that we understand some of the inner workings of git, we can learn more
-about functionality. One of the most useful features in git is the ability to
-branch off of you current commit line. Branching allows you to take the project in a
-new direction, while preserving the original project entirely.
+Now that we understand some of the inner workings of Git, we can explore more of
+its functionality. I previously mentioned that commits are structured so that
+linearly so that subsequent commits point to earlier ones.
 
-PUT IN AN DIAGRAM EXAMPLE HERE
+```{mermaid}
+flowchart LR
+    A["Initial commit"]
+    B["Second commit"]
+    C["Main work"]
 
-Branching is also necessary to understand if you are working on a collabrative
-project with multiple people. 
+    A -->|main| B
+    B -->|main| C
+```
+> Our primary branch is `main`. The arrows point to later commits. Each arrow is
+> labeled with the branch for clarity.
 
-We can list all of the branches in our repo with:
+One of the most useful features Git provides is **branching**. A branch is
+simply a pointer to a commit, allowing you to diverge from your current line of
+development while leaving it intact. This makes it possible to work on new
+features, experiments, or fixes in isolation, without affecting the rest of the
+project.
 
-`git branch`
+```{mermaid}
+flowchart LR
+    A["Initial commit"]
+    B["Second commit"]
+    C["Main work"]
+    D["Feature work"]
+
+    A -->|main| B
+    B -->|main| C
+    B -->|feature| D
+```
+> This shows an example where a branch `feature` was created after the second
+> commit, then commits were made to both `main` and `feature`.
+
+We can list all of the branches in our repository with:
+
+```zsh
+git branch
+```
 
 Currently we only have our default branch: `main` which we set the name of
 earlier.
 
 Create a new branch:
 
-`git branch test`
+```zsh
+git branch test
+```
+> `test` is the name of the branch that we are creating.
 
-Where `test` is the name of the branch that we are creating.
+We can then switch to a specified branch. 
 
-`git switch test` will then allow us to switch to a specified branch. 
+```zsh
+git switch test
+```
 
-Lets make a commit on this branch.
+Lets make a commit on this branch:
 
-Create a new file `groceries.md`, within the file add:
+Create a new file "groceries.md", within the file add:
 
 ```
 Eggs
@@ -509,39 +578,55 @@ Cheese
 Milk
 ```
 
-back in the terminal: 
+Save it, then back in the terminal: 
 
-`git add groceries.md`
+Stage "groceries.md":
 
-`git commit -m "added grocery list"`
+```zsh
+git add groceries.md
+```
 
-we can again look at the commit history:
+Then commit it:
 
-`git log`
+```zsh
+git commit -m "added grocery list"
+```
+
+We can again look at the commit history:
+
+```zsh
+git log
+```
 
 You can see that all of our previous commits to `main` are listed here, in
-addtion the commit that we have just made is also listed. 
+addition the commit that we have just made is also listed. 
 
-now lets switch back to `main`
+Now switch back to `main`:
 
-git switch `main`
+```zsh
+git switch main
+```
 
-now use `git log` again to compare the commit history between branches.
+Now use the following in order to compare the commit history between branches:
+
+```zsh
+git log
+```
 
 You will see that the commit that we made to `test` is missing. 
 
-Now, this is the functionality of branches, our `test` branch will preserve the
-history and changes up to the time the new branch is created. Any changes on
-one branch will have no effect on other branches. This allows you to take a
-project in a new direction, without effecting the original project.
+This is the functionality of branches, our `test` branch will preserve the
+history and changes up to the time the new branch is created. Any changes on one
+branch will have no effect on other branches. This allows you to take a project
+in a new direction, without effecting the original project.
 
 Lets create another commit on `main`
 
-Double check that you are still on the main branch `git branch`
+Double check that you are still on the primary branch `git branch`
 
-Create a new file: `movies.md`
+Create a new file: "movies.md"
 
-and within the file add:
+Within the file add:
 
 ```
 The God Father
@@ -549,27 +634,29 @@ The Dark Night
 Back To The Future
 ```
 
-Now, add and commit this file be sure that you are on `main` and use the commit
-message "added movies.md".
+Now, `add` and `commit` this file be sure that you are on `main` and use the
+commit message "added movies.md".
 
-now run: `git log --oneline --graph --all --decorate --parents`
+Run the following:
 
-The argument `--decorate` will allow us to see the commit history across
-branches. The rest of the arguments are there for convience. 
+```zsh
+git log --oneline --graph --all --decorate --parents
+```
+> The argument `--decorate` will allow us to see the commit history across
+> branches. The rest of the arguments for your convince. 
 
 You could see that these most recent commits share the same parent. This is the
-point of divergence and illustrates how branches represent a new commit history
-at a chosen point.
-
-INSERT GRAPHICS OF BRANCHING HERE
+idea behind divergence and illustrates how branches represent a new commit
+history at a chosen point.
 
 ## Merge
 
-Imagine you are using git to manage the creation of a Website. Imagine that you
-have created a new branch to test some differnt colors for the background of
+
+Imagine you are using Git to manage the creation of a Website. Imagine that you
+have created a new branch to test some different colors for the background of
 this website. Now lets say that you like how these changes look, and want the
-main branch to incorperate the changes. There are a few ways to do this, the
-most simple way would be to merege the branches. 
+main branch to incorporate the changes. There are a few ways to do this, one way
+would be to merege the branches. 
 
 
 There are a few basic types of merges that will be good to know about.
