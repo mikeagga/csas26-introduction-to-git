@@ -833,14 +833,14 @@ history is structured, walking back up our commit tree with a reset becomes very
 powerful.
 
 You will have noticed that when looking at our commit history using `git log`
-that the latest commit is always labeled with `HEAD`. `HEAD` is what Git uses
-to mark whichever the latest commit on whichever branch that you are on.
+that the latest commit is always labeled with `HEAD`. `HEAD` is a pointer to the
+currently checked-out commit, which is typically the tip of your current branch.
 
 There are three types of resets that Git provides. The first that we will use is
 a **soft reset**. A soft reset moves the `HEAD` pointer back to a specified point,
 thus undoing the commits until that point, this type of reset does not alter
-your working tree in any way, nor does it effect your staged files. So only the
-commit history is effected.
+your working tree in any way, nor does it affect your staged files. So only the
+commit history is affected.
 
 Run:
 
@@ -859,7 +859,7 @@ Now look at the commit history:
 git log --oneline --graph --all --decorate --parents
 ```
 
-You will see that our previous commit is gone.
+You will see that our previous commit has been removed from the commit history.
 
 Now run: 
 
@@ -873,25 +873,33 @@ staged.
 We now have the opportunity to change the staged file, or add another file to
 the commit. For now, just re-commit the files that are currently staged.
 
-`git commit -m "new commit message"`
+``` bash
+git commit -m "new commit message"
+```
 
-One use of `git reset --soft` is you would like to change the commit message of
-the most recent commit. You should also use soft resets if you forgot to stage a
-change that you would like to have in said commit. In addition, you could soft
-reset multiple commits if you would like to group all of the commits into one.
+One use of `git reset --soft` is when you would like to change the commit
+message of the most recent commit. You should also use soft resets if you forgot
+to stage a change that you would like to have in said commit. In addition, you
+could soft reset multiple commits if you would like to group them all into a
+single commit.
 
-The next type of reset is a mixed reset. This reset is very similar to soft
-reset, but does not re-stage the files. You can do it using: `git reset HEAD~1`
+The next type of reset is a **mixed reset**. This reset is very similar to a soft
+reset, but does not re-stage the files. This means the changes will still be
+present in your working tree, but you will need to stage them again before
+committing. This is useful when you want to undo a commit but also rework which
+changes get grouped together. You can do a mixed reset using: `git reset HEAD~1`
 
 There is no need to try it now, just keep it in mind if you need to use it at
 some point.
 
-Lastly is **hard reset**. This will take your repository back to the time of the
-specified commit. 
+Last is **hard reset**.This will take your repository back to the state of the
+specified commit, discarding all changes in the working tree and staging area.
 
 To illustrate this, lets first take a look at our current repository with:
 
-`ls`
+``` bash
+ls
+```
 
 Now, lets make another commit:
 
@@ -913,7 +921,11 @@ git log --oneline --graph --all --decorate --parents
 
 Now, lets hard reset to a time where we didn't commit a project breaking change.
 
-Run: `git reset --hard HEAD~1`
+Run: 
+
+``` bash
+git reset --hard HEAD~1
+```
 
 We can then use `ls` to see that "mistake.md" is not in the repository. We could
 also take a look at the commit history once again.
@@ -924,26 +936,25 @@ git log --oneline --graph --all --decorate --parents
 You will see that the mistake commit is gone entirely and our working tree is
 reset to how it was after the previous commit.
 
-This may be exactly what you would like to do, but say for instance you realized
-that there was something important in the last commit that you just hard reset.
-Luckily Git has a way to help you out of this situation.
+This may be exactly what you would like to do, but hard resets can feel
+dangerous. What if you realized there was something important in the commit you
+just discarded? Luckily, Git has a safety net for this situation.
 
-Git keeps track of ever time the `HEAD` pointer moves, this is called the reflog.
-
-In order to view the changes to the `HEAD` pointer that Git has tracked we can
-use:
+Git keeps track of every time the `HEAD` pointer moves, this is called the
+reflog. In order to view the changes to the `HEAD` pointer that Git has tracked
+we can use:
 
 ``` bash
 git reflog
 ```
+You will see a list of every position HEAD has been at. Each entry has a commit
+hash on the left and a description of the action on the right (e.g. reset:
+moving to HEAD~1). Find the entry just before your hard reset and make note of
+its commit hash.
 
-To reset to a time before we hard reset, we could take a look at the reflog and
-find the commit before the reset and make note of the commit hash.
-
-Then use:
-
+To restore our repository to that point, use:
 ``` bash
-git reset --hard HEAD@{1}`
+git reset --hard HEAD@{1}
 ```
 > We could either use the commit hash or use pointer arithmetic, just be sure
 > that it is correct.
@@ -956,151 +967,232 @@ And if you take a look at the log:
 ``` bash
 git log --oneline --graph --all --decorate --parents
 ```
-
 You will see that "mistake commit" is back in the commit history.
 
 ## Remote
 
-I mentioned that a big component of modern git is working collaboratively, this
-is typically done through Github. Although, to beginners Github is a bit of a
-mystery. To demystify GitHub a bit, I will demonstrate the workflow for an
-indivdual using a local remote repository.
+I mentioned that one benefit of using Git is the ability to work
+collaboratively. Typically, collaborative work is orchestrated through GitHub.
+GitHub will host a clone of your local repository on their server. This enables
+you to make changes to your project on any device with an internet connection.
+It also allows others to view, download your work and potentially contribute to
+it.
 
-Through the use of the `git remote` set of commands, git allows you to connect
-your repo to other repos. Usually there is one main repository which all
-collaborators consider the "source of truth" usually named "origin". This
-repository is where the finalized code will stay. Typically, this will be the
-repository that Github hosts for you.
+The core feature of Git that enables GitHub to host your repository is the
+ability to connect repositories using remotes. A remote allows you to link two
+repositories together, enabling you to sync changes between them.
 
-Lets imagine that our current repository is the source of truth that we would
-like to connect to.
+Since repositories hosted by GitHub are easily shareable, they often become where
+the most recent and authoritative version of a project resides. Work will be
+done locally, then approved and uploaded to this repository. These repositories
+are commonly referred to as "upstream" and they are an arbitrary choice for
+our projects "source of truth".
 
-First lets start by creating another repository: 
+The functionality of remote repositories can be examined locally, since remotes
+are a feature of Git, GitHub just happens to use them. In this example we will
+use our current repository like we would a repository hosted by GitHub as our
+upstream repository.
 
-`cd ../`
+Lets start by creating another repository:
 
-Use this command to change directory into the previous directory. It is very
-important that you do not make the new repository inside the example project
-repository that we were just in.
+Use this command to change directory into the previous directory:
 
-`mkdir ./example_project_local/`
+```bash
+cd ../
+```
+> It is very important that you do not make the new repository inside the example
+> project repository that we were just in.
 
-Make a new directory, this will simulate the local repository.
+Make a new directory, this will simulate the local repository:
 
-`git init`
+```bash
+mkdir ./example_project_local/
+```
 
-Remember, we initalize a git repo using this command.
+Then change directory into it:
 
+```bash
+cd ./example_project_local/
+```
+Initialize the repository:
+
+```bash
+git init
+```
 Now, connect our original repository using this command:
 
-`git remote add origin ../example_project`
+```bash
+git remote add origin ../example_project
+```
 
-Where origin will be the name of the connected remote repository it could be
-anythign but "origin" is the converntion. The last argument will be the source,
-in this example it is the path to our original project repository. If Github is
-the source, then this argument will be a url.
+> "origin" will be the name of the connected remote repository. It could be
+> anything, but "origin" is the convention. The last argument will be the source,
+> in this example it is the path to our original project repository. If GitHub is
+> the source, then this argument will be a URL.
 
-Use the following command list the connected remotes and verify that we have
-connected our remote correctly. 
+Use the following command to list the connected remotes and verify that we have
+connected our remote correctly:
 
-`git remote -v`
+```bash
+git remote -v
+```
 
-We can now run `git log`, you will see that there is currently no commit
-history. 
+Now run: 
 
-now run `git fetch`.
+```bash
+git fetch
+```
+This command downloads the Git objects and references from the remote
+repository. As a result, we now have access to the remote's commit history
+locally through the origin/main remote-tracking reference. We can check this:
 
-This command will fetch the commit history. We can confirm this via running
-`git log` once again.
+```bash
+git log --all
+```
+> The argument `--all` allows us to see the commits from origin/main.
 
-You will notice, our simulated local repository does have the same commit
-history, but does not contain any files. You will also notice that the commit
-hashes are the same across both repositories.
+You will notice that while our local repository has no commits of its own, we
+can see the remote's commit history through the origin/main reference.
 
-Now use `git merge origin/main` to merge the contents 
+Now merge the contents from our upstream repository:
 
-Now you could use `ls`, you will see that all of the files from the other
-repository are now copied into our current repository. In addition, we have
-learned that you could pass remote branches to the `git merge` command.
+```bash
+git merge origin/main
+```
 
-We could also push file from our local directory into our source of truth
-repository. Meaning, we could create edit and commit changes within our local
-repository, then cause our upstream mirror repository (source of truth) to sync
-to our local repository. This means our local objects, reference and commit
-history will be synced to our upstream repo.
+Now run:
 
-To reiterate, our source of truth is whatever repository we choose, most of the
-time it will be a git repository hosted on GitHub, it is an arbitrary choice
-that is standard practice. One thing to note is that a GitHub directory is a
-"bare" repository, meaning that GitHub does not actually store all of your
-files, and instead only keeps track of the `.git/` directory within your
-repository. This makes the repository much different than our example source of
-truth repository. For instance, there is no working tree in a bare repo,
-therefore, no one is technically "checked-out", or "within" the repository. This
-then means that you could freely push to a bare repo with no issues. On the
-other hand, our upstream repo is not bare and we currently have main checked
-out. If we push our changes from our local repo to main while main is checked
-out then our HEAD pointer would be one commit behind, and we would cause issues
-if we tried to make another commit.
+``` bash
+ls
+```
 
-ADD A PICTURE EXAMPLE
+You will notice that all of the files from the other repository have been copied
+into our current repository. We have also learned that you can pass remote
+branches to the `git merge` command.
+
+::: {.callout-note}
+The two steps we just performed, `git fetch` followed by `git merge`, are
+equivalent to running `git pull`. You will commonly see `pull` used as a
+shorthand for this workflow.
+:::
+
+We could also push files from our local directory into our upstream repository.
+Meaning we could create, edit, and commit changes within our local repository,
+then cause our upstream repository to sync to our local repository. This means
+our local objects, references, and commit history will be synced to our upstream
+repository.
+
+To reiterate, our source of truth is whatever repository we choose. Most of the
+time it will be a Git repository hosted on GitHub. One thing to note is that a
+GitHub repository is a bare repository, meaning that GitHub does not actually
+store all of your files and instead only keeps track of the `.git/` directory.
+This makes it very different from our example upstream repository. For instance,
+there is no working tree in a bare repository, therefore no one is technically
+"checked out" within the repository. This means you can freely push to a bare
+repository with no issues.
+
+On the other hand, our upstream repository is not bare and we currently have
+main checked out. If we push our changes from our local repository to `main`
+while `main` is checked out, our `HEAD` pointer would be one commit behind, and
+we would cause issues if we tried to make another commit.
 
 Lets demonstrate this with an example:
 
-First, create the file: "example_push.md" within your `example_project_local/`
-directory. 
-
-With contents: 
+First, create the file "example_push.md" within your `example_project_local/`
+directory with the following contents:
 
 ```
 This is an example of how to use the push command.
 ```
-Then `add` and `commit` it with message: "Added example_push.md"
 
-Now run: `git push origin main`, where origin is the name of the remote, and
-main is the name of the branch.
+Then add and commit it with the message: "Added example_push.md"
 
-You will see a scary looking error message. This error message is protecting us
-from the problem that we discussed earlier, also the push was not successful.
+Now run:
 
-***Note, if our upstream repository was bare, then this command would not throw
-and errors***
+```bash
+git push origin main
+```
+
+Where origin is the name of the remote, and main is the name of the branch.
+
+You will see a scary looking error message. Git is telling us that the push was
+rejected because main is currently checked out in the upstream repository. Git
+is protecting us from putting the upstream repository into an inconsistent
+state, where the files in the working tree no longer match the commit that
+`HEAD` is pointing to. 
+
+::: {.callout-note}
+If our upstream repository were bare, this command would not throw any errors.
+:::
 
 This is the same issue that arises when working collaboratively within one
-repository. Imagine you push your changes to main, while another collaborator is
-has main checked out. This issue could be circumnavigated through branching,
-which is the standard practice for contributing to a collaborative project.
+repository. Imagine you push your changes to main while another collaborator has
+`main` checked out. This issue can be avoided through branching, which is the
+standard practice for contributing to a collaborative project.
 
-Now run: `git reset --soft HEAD~1` a command that we learned earlier that will
-undo the latest commit but preserve the working tree.
+Now run:
 
-Then run: `git switch -c temp_branch` 
+```bash
+git reset --soft HEAD~1
+```
 
-This command is shorthand to create a new branch and switch to it, the last
+This is a command we learned earlier that will undo the latest commit but
+preserve the working tree.
+
+Then run:
+
+```bash
+git switch -c temp_branch
+```
+
+This command is shorthand to create a new branch and switch to it. The last
 argument is the chosen name of the branch.
 
-Then commit the changes to this new "temp_branch" with the same commit message.
+Commit the changes to this new branch with the same commit message as before.
 
-Now run: `git push origin temp_branch` in order to push our changes upstream.
+Now run:
+
+```bash
+git push origin temp_branch
+```
+
+This will push our changes upstream to the new branch instead of main.
 
 Then change directories back into our simulated upstream repo:
-`cd ../example_project`
 
-Now run `git branch` to check that the new branch as been created, then switch
-into the new branch and use `ls` to check that "example_push.md" is there.
-Finally, switch back to the main branch.
+```bash
+cd ../example_project
+```
 
-We can also take a look at the commit history: 
-`git log --oneline --graph --all --decorate --parents`
+Run git branch to confirm that the new branch has been created, then switch into
+it and use `ls` to verify that example_push.md is there. Finally, switch back to
+the main branch.
 
-You will notice that, since "temp_branch" starts at the tip of "main", we can
-use a fast-forward merge.
+We can also take a look at the commit history:
 
-Use: `git merge temp_branch` to perform a fast-forward merge.
+```bash
+git log --oneline --graph --all --decorate --parents
+```
 
-Now it is a good practice to delete the branch after merge using:
-`git branch -d temp_branch`.
+You will notice that since temp_branch starts at the tip of main, we can use a
+fast-forward merge.
 
+Run the following to perform the fast-forward merge:
+
+```bash
+git merge temp_branch
+```
+
+Finally, it is good practice to delete the branch after merging:
+
+```bash
+git branch -d temp_branch
+```
+
+This workflow of pushing a branch upstream and merging it into main is exactly
+what happens when you open a Pull Request on GitHub. The main difference is that
+GitHub wraps this process in a web interface, allowing collaborators to review
+and discuss your changes before the merge is performed.
 
 
 
