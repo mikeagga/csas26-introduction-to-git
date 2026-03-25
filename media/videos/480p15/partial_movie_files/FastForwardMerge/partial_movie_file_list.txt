@@ -1,9 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/1584795214_4141581741_223132457.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_2830830272_2436014861.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_2629246643_3534337712.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_1839128356_3434820053.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_1626827580_1815298784.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_2574473371_27445153.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_4048069223_2065955452.mp4'
-file 'file:/Users/m1k34g/Documents/schoolwork/csas26/media/videos/480p15/partial_movie_files/FastForwardMerge/4072820271_1839128356_1533616788.mp4'
