@@ -6,6 +6,8 @@ date: today
 
 ## Introduction
 
+### What is Git?
+
 Git is a free, open-source, distributed version control system (VCS) designed
 to track changes in source code during software development. It allows
 developers to manage project history, collaborate with others, and work on code
@@ -20,9 +22,23 @@ texted based project could be maintained using Git. It is in your best interest
 to track and save your work using Git, your homework, notes, writing and
 personal projects. 
 
+### Workshop Structure
+
 This workshop will take you through the process of creating and managing a
 hypothetical project using Git. Along the way you will learn the commands
 concepts and best practices required manage your own work using Git and GitHub.
+You should follow along with each step.
+
+### Objectives
+
+- Learn the essential Git workflow.
+
+- Develop a conceptual understanding of Git.
+
+- Learn best practices for managing branches.
+
+- Understand remote repositories in the context of GitHub.
+
 
 ## Setting up your repository
 
