@@ -1,0 +1,620 @@
+---
+title: Introduction to Git & GitHub
+subtitle: Connecticut Sports Analytics Symposium 2025
+author: Michael Agostino
+date: today
+format:
+    revealjs:
+        preview-links: true
+        theme: simple
+        ratio: '16:9'
+        slide-number: true
+    html:
+        output-file: web.html
+
+---
+
+# Outline
+
+1. What is Git? (5 min)
+2. Setup & Installation (18 min)
+3. Git Fundamentals (20 min)
+4. Additional Basic Functionality (7 min)
+5. Branching (10 min)
+6. Collaboration with GitHub (7 min)
+7. Further Reading & Wrap Up (3 min)
+
+# Objectives
+
+- Set up a GitHub account and install Git locally.
+
+- Learn the Git workflow for working on an individual project.
+
+- Learn the basics of collaboration.
+
+# What is Git?
+
+## What is Git? {.smaller}
+
+- Git is a free and open-source distributed version control system (VCS) designed
+to track changes in source code and other files.
+
+- Git is particularly useful when you and a group of people are all making
+changes to the same files at the same time.
+
+**Why Git?**
+
+- According to the 2022 Stack Overflow developer survey, 96% of professional 
+developers use Git.
+
+- Git was built to work on the Linux kernel, meaning that it was built to
+handle repositories with tens of millions of lines of code.
+
+- As of 2025, the current version of the Linux kernel's source code is 1.7 GB.
+Git stores the full history of the Linux project (1.4 million commits) in only
+5.5 GB.
+
+## Why do we need Git version control? {.smaller}
+
+- Keeps your project organized and structured.
+
+- Allows you to control exactly when and how you will save your progress.
+
+- Your saves (commits) are structured.
+
+- You can view and reset individual files or your entire project at different
+points in time.
+
+
+## What is GitHub? {.smaller}
+
+- GitHub is a platform that will host a Git repository on their servers for
+you.
+
+- Typically users work locally, track their changes with Git, then upload the
+changes to GitHub.
+
+**Git vs GitHub**
+	
+- Git is a tool, GitHub is a platform that uses the tool.
+
+**Why GitHub**
+
+- GitHub provides many addition features that make collaboration more simple.
+
+- Your project will be uploaded to the cloud. Meaning, you can seamlessly work
+on one project across multiple devices, your progress is seamlessly shared
+between them.
+
+- You can display your projects to the public.
+
+- GitHub is the industry standard.
+
+# Setup & Installation {.smaller}
+
+## GitHub {.smaller}
+
+- If you have not already, you should create an account on GitHub:
+
+### Visit the GitHub website {.smaller}
+
+[GitHub signup](https://github.com/signup)
+
+Enter your credentials, email and password.
+
+### Enable 2FA {.smaller}
+
+> As of March 2023, GitHub required all users who contribute code on GitHub.com
+> to enable one or more forms of two-factor authentication (2FA).
+
+You can configure two-factor authentication (2FA) using a TOTP app on mobile or
+desktop or via text message.
+
+### Set up SSH {.smaller}
+
+
+## Git {.smaller}
+
+Git runs locally on your command line, meaning the process of installing Git is
+different per operating system.
+
+## macOS {.smaller}
+
+There are a few ways to install Git on your Mac, but the easiest is to use
+Homebrew, a package manager that allows you to easily install other
+applications.
+
+### Install Homebrew {.smaller}
+
+- Visit [brew.sh](https://brew.sh) in your browser. You will find the following
+command:
+
+``` 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+- Copy and paste this command into your terminal.
+
+**Tip:** Open the terminal by pressing Command + Space to launch Spotlight, then
+search for "Terminal."
+
+### Use Homebrew to install Git {.smaller}
+
+Once Homebrew has finished installing, run this command:
+
+```
+brew install git
+```
+
+Once installation is complete, verify Git is installed:
+
+```
+git --version
+```
+
+## Windows {.smaller} 
+
+The most simple to install Git on Windows is to use the official Git installer.
+ 
+1. Visit the official Git website: https://git-scm.com/install/windows
+ 
+2. Download the "Standalone Installer." If you're on a 64-bit system, choose "Git
+for Windows/x64 Setup."
+ 
+3. After the download finishes, find the file (Downloads folder) and follow the
+installation instructions.
+ 
+4. Now search for "Git Bash" in your Start menu. If it appears, you have
+successfully installed Git on your Windows device.
+
+## Initial configuration
+
+```bash
+git config --add --global user.name "github_username_here"
+
+git config --add --global user.email "email@something.com"
+
+git config --add --global init.defaultBranch main
+```
+
+# Git Fundamentals
+
+## What is a Repository? {.smaller}
+
+- A repository (or "repo") is the directory in which all of the data of your
+project is kept.
+
+- A Git repository will always have a `.git/` subdirectory.
+		- This is how Git tracks everything: your commits, branches, and history
+    are all stored here.
+
+::: {.callout-warning}
+### Never manually edit the `.git/` directory
+Modifying or deleting anything inside `.git/` can corrupt your repository.
+:::
+
+## Creating Your First Repository {.smaller}
+
+1. Create a new repository on GitHub.
+    - Give it a name and leave all other settings as default for now.
+
+2. Copy the SSH link from the **"Code"** dropdown on your new repository's
+page.
+
+3. In your terminal, `cd` into the directory where you want to keep your
+project.
+
+4. Clone the repository:
+
+```bash
+git clone [paste your ssh link here]
+```
+
+This will create a new directory with the name of your repository, initialize
+a Git repo inside it, and connect it to GitHub automatically.
+
+5. `cd` into your new repository:
+
+```bash
+cd [repository-name]
+```
+
+## What is a Commit? {.smaller}
+
+- The core functionality of Git is the ability to save your work - this is
+called a **commit**.
+
+- Git gives you full control over which files are committed and when.
+
+- Git labels every file in your repository with one of three states:
+
+| State       | Description                                     |
+|-------------|-------------------------------------------------|
+| `untracked` | Git is not tracking this file at all.           |
+| `modified`  | A tracked file that has changes not yet staged. |
+| `staged`    | Marked for inclusion in the next commit.        |
+
+- These states are how we control what gets committed and what does not.
+
+## Your First Commit {.smaller}
+
+**Create a new file**
+
+1. Create a new file called `hello.md`.
+
+2. Inside the file, write:
+
+```text
+Hello world!
+```
+
+3. Save the file.
+
+**Check the status of your repository**
+
+```bash
+git status
+```
+
+You should see `hello.md` listed as an **untracked** file.
+
+## Staging Your Changes {.smaller}
+
+Stage the file with `git add`:
+
+```bash
+git add hello.md
+```
+
+This marks the file for inclusion in the next commit.
+
+Now run `git status` again:
+
+```bash
+git status
+```
+
+You should now see `hello.md` listed under **"Changes to be committed"** -
+it is now in the **staged** state.
+
+::: {.callout-tip}
+### Staging all changes at once
+You can stage all changed and untracked files at once with:
+```bash
+git add .
+```
+Be careful with this - make sure you are not accidentally staging files you
+did not intend to commit.
+:::
+
+## Making the Commit {.smaller}
+
+```bash
+git commit -m "My first commit"
+```
+
+- Every commit requires a **commit message** - a short description of what
+changed and why.
+- A good commit message is short but descriptive, e.g.
+`"Add hello world file"` rather than `"changes"`.
+
+## What happens when you make a commit? {.smaller}
+
+- Git saves a snapshot of all staged files at that moment in time.
+- Git generates a unique hash (e.g. `a3f8c2d...`) to identify the commit.
+- Git records your name, email, and timestamp alongside the commit.
+- Git updates the `.git/` directory with the new commit.
+
+**What you should never commit**
+
+- Large datasets (`.csv`, `.zip`, etc.)
+- Rendered outputs or build artifacts
+- Installed dependencies or libraries
+- Environment or OS-specific files (`.DS_Store`, etc.)
+- Anything copyrighted or sensitive (API keys, passwords)
+
+## Uploading Changes to GitHub  {.smaller}
+
+```bash
+git push origin main
+```
+
+- This syncs your local commits to your GitHub repository.
+- `origin` is the name of your remote connection to GitHub.
+- `main` is the name of the branch you are pushing to.
+
+After pushing, navigate to your repository on GitHub - you should see your
+`hello.md` file there.
+
+## The Git & GitHub Workflow {.smaller}
+
+Putting it all together, the basic workflow is:
+
+1. Create or edit files in your repository.
+2. Check the status of your repository.
+```bash
+git status
+```
+3. Stage the changes you want to commit.
+```bash
+git add <file>
+```
+4. Commit the staged changes with a descriptive message.
+```bash
+git commit -m "your message here"
+```
+5. Push your commits to GitHub.
+```bash
+git push origin main
+```
+
+::: {.callout-tip}
+### Get in the habit of running `git status` constantly
+Before and after every command, run `git status`. It will always tell you
+exactly what state your repository is in and help you avoid surprises.
+:::
+ 
+# Additional Basic Functionality
+
+## .gitignore {.smaller}
+
+- A `.gitignore` file tells Git which files and directories it should not
+track.
+
+- This is useful for keeping sensitive data, large files, and generated
+files out of your repository.
+
+**Common things to ignore**
+
+- API keys and passwords
+- Large data files (`.csv`, `.zip`, etc.)
+- System files (`.DS_Store` on macOS)
+- Generated files (`__pycache__/`, `.pyc`)
+
+## Example `.gitignore` {.smaller}
+
+```text
+# Ignore all CSV files
+*.csv
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+```
+
+Create a `.gitignore` by making a new file in the root of your repository
+named `.gitignore` and adding the patterns you want to ignore.
+
+# Branching
+
+## What is a Branch? {.smaller}
+
+- A branch is an independent line of development within a repository.
+
+- By default, your repository has one branch called **main**. This is the
+"official" version of your project.
+
+- When you create a branch, you are creating an independent copy of the
+codebase that you can make changes to without affecting **main**.
+
+- When you are satisfied with your changes, you can merge your branch back
+into **main**.
+
+**Why use branches?**
+
+- Allows you to work on a new feature or fix a bug without risking breaking
+the working version of your project.
+
+- Enables multiple people to work on different features simultaneously without
+interfering with each other.
+
+## Creating and Switching Branches {.smaller}
+
+Create a new branch:
+
+```bash
+git branch feature-branch
+```
+
+Switch to the new branch:
+
+```bash
+git switch feature-branch
+```
+
+Or do both at once:
+
+```bash
+git switch -c feature-branch
+```
+
+Check which branch you are currently on:
+
+```bash
+git branch
+```
+
+The branch with the `*` next to it is the branch you are currently on.
+
+## Working on a Branch {.smaller}
+
+Once you are on your new branch, the workflow is exactly the same as before:
+
+1. Create and edit files.
+2. Stage the changes with `git add`.
+3. Commit the changes with `git commit -m "commit message"`.
+
+Any commits you make will only affect your current branch. Your **main**
+branch will remain unchanged.
+
+Push your branch to GitHub:
+
+```bash
+git push origin feature-branch
+```
+
+## Merging Branches {.smaller}
+
+- Once you are satisfied with the changes on your branch, you can merge it
+back into **main**.
+
+- First, switch back to **main**:
+
+```bash
+git switch main
+```
+
+- Then merge your branch into **main**:
+
+```bash
+git merge feature-branch
+```
+
+## Merge Conflicts {.smaller}
+
+- A merge conflict occurs when two branches have made changes to the same
+part of the same file.
+
+- Git will not know which version to keep, so it will ask you to resolve the
+conflict manually.
+
+- Git will mark the conflict in the file like this:
+
+```text
+<<<<<<< HEAD
+This is the version on main.
+=======
+This is the version on feature-branch.
+>>>>>>> feature-branch
+```
+
+- You must edit the file to keep the version you want, removing the conflict
+markers, then stage and commit the resolved file.
+
+::: {.callout-tip}
+### Avoiding Merge Conflicts
+The best way to avoid merge conflicts is to keep branches short-lived and
+focused on a single feature or fix, and to regularly sync your branch with
+main using `git pull`.
+:::
+
+## Deleting a Branch {.smaller}
+
+Once your branch has been merged, you can safely delete it:
+
+```bash
+git branch -d feature-branch
+```
+
+To delete the branch on GitHub as well:
+
+```bash
+git push origin --delete feature-branch
+```
+
+# Collaboration with GitHub
+
+## What is a Pull Request? {.smaller}
+
+- A Pull Request (PR) is a feature of GitHub that allows you to propose
+merging changes from one branch into another.
+
+- Pull Requests are the standard way to contribute to a project on GitHub,
+whether it is your own or someone else's.
+
+- A Pull Request gives collaborators the opportunity to **review your changes**
+before they are merged into **main**.
+
+**Why use Pull Requests?**
+
+- Keeps the **main** branch stable and working.
+
+- Creates a record of why and how changes were made.
+
+- Allows collaborators to leave comments and suggest improvements before
+changes are merged.
+
+- Even on solo projects, PRs are a good habit - they give you a chance to
+review your own changes.
+
+## Opening a Pull Request {.smaller}
+
+1. Push your branch to GitHub if you have not already:
+
+```bash
+git push origin feature-branch
+```
+
+2. Navigate to your repository on GitHub.
+
+3. GitHub will display a prompt at the top of the page:
+*"feature-branch had recent pushes"* - click **"Compare & pull request"**.
+
+4. Fill in the Pull Request form:
+    - **Title** - a short description of what your changes do.
+    - **Description** - explain what you changed and why.
+
+5. Click **"Create pull request"**.
+
+## Reviewing a Pull Request {.smaller}
+
+- Once a Pull Request is open, collaborators can:
+    - **View the changes** made in the PR under the "Files changed" tab.
+    - **Leave comments** on specific lines of code.
+    - **Approve** the changes or **request changes** before merging.
+
+- On a solo project you will typically review your own PR before merging.
+
+::: {.callout-tip}
+### Writing a Good PR Description
+A good PR description answers three questions:
+- What did you change?
+- Why did you make this change?
+- Is there anything the reviewer should pay special attention to?
+:::
+
+## Merging a Pull Request {.smaller}
+
+Once the PR has been reviewed and approved:
+
+1. Click **"Merge pull request"** on the PR page on GitHub.
+
+2. Click **"Confirm merge"**.
+
+3. Optionally delete the branch on GitHub by clicking
+**"Delete branch"**.
+
+4. Sync your local **main** branch with the changes:
+
+```bash
+git switch main
+git pull origin main
+```
+
+## The Full Collaboration Workflow {.smaller}
+
+Putting it all together:
+
+1. Create a new branch for your feature or fix.
+```bash
+git switch -c feature-branch
+```
+2. Make changes, stage and commit them.
+```bash
+git add .
+git commit -m "description of changes"
+```
+3. Push the branch to GitHub.
+```bash
+git push origin feature-branch
+```
+4. Open a Pull Request on GitHub.
+5. Review and merge the Pull Request.
+6. Sync your local main branch.
+```bash
+git switch main
+git pull origin main
+```
