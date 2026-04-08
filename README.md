@@ -17,10 +17,6 @@ Topics to expect
 - Core functionality
 - A brief overview of how Git works.
 - Branching
-- Merging
-- Rebase
-- Reset
-- Remote
 - GitHub basics
 
 This workshop teaches core concepts through real-world examples and active
@@ -35,8 +31,3 @@ understanding of it is valuable in any computing-related field. Therefore, this
 workshop also serves as a starting point for those interested in developing
 their command line skills through real examples and usage.
 
-
-### **Important**
-If you are visiting this repository before the workshop date, please
-review the `universal_setup.md` file. It will guide you through all required setup
-on your device and should only take a few minutes.

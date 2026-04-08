@@ -1,6 +1,6 @@
 ---
 title: Introduction to Git & GitHub
-subtitle: Connecticut Sports Analytics Symposium 2025
+subtitle: Connecticut Sports Analytics Symposium 2026
 author: Michael Agostino
 date: today
 format:
@@ -83,8 +83,7 @@ changes to GitHub.
 - GitHub provides many addition features that make collaboration more simple.
 
 - Your project will be uploaded to the cloud. Meaning, you can seamlessly work
-on one project across multiple devices, your progress is seamlessly shared
-between them.
+on one project across multiple devices, your progress is shared between them.
 
 - You can display your projects to the public.
 
@@ -94,15 +93,11 @@ between them.
 
 ## GitHub {.smaller}
 
-- If you have not already, you should create an account on GitHub:
+If you have not already, you should create an account on GitHub:
 
-### Visit the GitHub website {.smaller}
+1) Visit the GitHub website: [GitHub signup](https://github.com/signup). Enter your credentials, email and password.
 
-[GitHub signup](https://github.com/signup)
-
-Enter your credentials, email and password.
-
-### Enable 2FA {.smaller}
+2) **Enable 2FA**
 
 > As of March 2023, GitHub required all users who contribute code on GitHub.com
 > to enable one or more forms of two-factor authentication (2FA).
@@ -110,13 +105,13 @@ Enter your credentials, email and password.
 You can configure two-factor authentication (2FA) using a TOTP app on mobile or
 desktop or via text message.
 
-### Set up SSH {.smaller}
+## Set up SSH {.smaller}
 
 
 ## Git {.smaller}
 
-Git runs locally on your command line, meaning the process of installing Git is
-different per operating system.
+Git runs locally on your system. Meaning the process of installing Git is
+different per operating system. We will operate Git using the command line.
 
 ## macOS {.smaller}
 
@@ -124,7 +119,7 @@ There are a few ways to install Git on your Mac, but the easiest is to use
 Homebrew, a package manager that allows you to easily install other
 applications.
 
-### Install Homebrew {.smaller}
+**Install Homebrew**
 
 - Visit [brew.sh](https://brew.sh) in your browser. You will find the following
 command:
@@ -132,13 +127,9 @@ command:
 ``` 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+- Copy and paste this command into your terminal. Hit enter to run it.
 
-- Copy and paste this command into your terminal.
-
-**Tip:** Open the terminal by pressing Command + Space to launch Spotlight, then
-search for "Terminal."
-
-### Use Homebrew to install Git {.smaller}
+**Use Homebrew to install Git**
 
 Once Homebrew has finished installing, run this command:
 
@@ -154,9 +145,9 @@ git --version
 
 ## Windows {.smaller} 
 
-The most simple to install Git on Windows is to use the official Git installer.
+The most simple to install Git on Windows is to use the official Git installer:
  
-1. Visit the official Git website: https://git-scm.com/install/windows
+1. Visit the official [Git website](https://git-scm.com/install/windows)
  
 2. Download the "Standalone Installer." If you're on a 64-bit system, choose "Git
 for Windows/x64 Setup."
@@ -169,6 +160,7 @@ successfully installed Git on your Windows device.
 
 ## Initial configuration
 
+:::{style="margin-top: 15%;"}
 ```bash
 git config --add --global user.name "github_username_here"
 
@@ -176,17 +168,18 @@ git config --add --global user.email "email@something.com"
 
 git config --add --global init.defaultBranch main
 ```
+:::
 
 # Git Fundamentals
 
-## What is a Repository? {.smaller}
+## What is a Repository?
 
 - A repository (or "repo") is the directory in which all of the data of your
 project is kept.
 
 - A Git repository will always have a `.git/` subdirectory.
-		- This is how Git tracks everything: your commits, branches, and history
-    are all stored here.
+  - This is how Git tracks everything: your commits, branches, and history
+   	are all stored here.
 
 ::: {.callout-warning}
 ### Never manually edit the `.git/` directory
@@ -221,12 +214,14 @@ cd [repository-name]
 
 ## What is a Commit? {.smaller}
 
-- The core functionality of Git is the ability to save your work - this is
-called a **commit**.
+- The core functionality of Git is the ability to save your work.
+
+- Git packages saves as **commits**.
 
 - Git gives you full control over which files are committed and when.
 
 - Git labels every file in your repository with one of three states:
+  - These states are how we control what gets committed and what does not.
 
 | State       | Description                                     |
 |-------------|-------------------------------------------------|
@@ -234,21 +229,20 @@ called a **commit**.
 | `modified`  | A tracked file that has changes not yet staged. |
 | `staged`    | Marked for inclusion in the next commit.        |
 
-- These states are how we control what gets committed and what does not.
 
 ## Your First Commit {.smaller}
 
 **Create a new file**
 
-1. Create a new file called `hello.md`.
+Create a new file called `README.md`.
 
-2. Inside the file, write:
+Inside the file, write:
 
 ```text
-Hello world!
+This is an example Homework assignment.
 ```
 
-3. Save the file.
+Save the file.
 
 **Check the status of your repository**
 
@@ -263,10 +257,10 @@ You should see `hello.md` listed as an **untracked** file.
 Stage the file with `git add`:
 
 ```bash
-git add hello.md
+git add README.md
 ```
 
-This marks the file for inclusion in the next commit.
+- This marks the file for inclusion in the next commit.
 
 Now run `git status` again:
 
@@ -274,8 +268,9 @@ Now run `git status` again:
 git status
 ```
 
-You should now see `hello.md` listed under **"Changes to be committed"** -
-it is now in the **staged** state.
+You should now see `README.md` listed under **"Changes to be committed"** 
+
+- It is now in the **staged** state.
 
 ::: {.callout-tip}
 ### Staging all changes at once
@@ -287,16 +282,16 @@ Be careful with this - make sure you are not accidentally staging files you
 did not intend to commit.
 :::
 
-## Making the Commit {.smaller}
+## Making the Commit
 
 ```bash
-git commit -m "My first commit"
+git commit -m "Initial added README"
 ```
 
-- Every commit requires a **commit message** - a short description of what
-changed and why.
+- Every commit requires a **commit message**.
+  - a short description of what changed and why.
 - A good commit message is short but descriptive, e.g.
-`"Add hello world file"` rather than `"changes"`.
+`"Initial added README"` rather than `"changes"`.
 
 ## What happens when you make a commit? {.smaller}
 
@@ -323,8 +318,8 @@ git push origin main
 - `origin` is the name of your remote connection to GitHub.
 - `main` is the name of the branch you are pushing to.
 
-After pushing, navigate to your repository on GitHub - you should see your
-`hello.md` file there.
+After pushing, navigate to your repository on GitHub.
+
 
 ## The Git & GitHub Workflow {.smaller}
 
@@ -344,7 +339,7 @@ git add <file>
 git commit -m "your message here"
 ```
 5. Push your commits to GitHub.
-```bash
+```bash 
 git push origin main
 ```
 
@@ -353,6 +348,19 @@ git push origin main
 Before and after every command, run `git status`. It will always tell you
 exactly what state your repository is in and help you avoid surprises.
 :::
+
+## Lets try another example. {.smaller}
+
+1. Navigate to this presentations GitHub repository.
+  - There is a link to it from the CSAS 2026 website.
+
+2. Find the `git_homework.md` file, click on it, copy its contents.
+
+3. Create a new file in your own repository `git_homework.md`
+
+4. Open the new file, and paste in the copied text.
+
+5. Now, `add`, `commit` and `push` the file.
  
 # Additional Basic Functionality
 
@@ -387,6 +395,71 @@ __pycache__/
 
 Create a `.gitignore` by making a new file in the root of your repository
 named `.gitignore` and adding the patterns you want to ignore.
+
+## Log
+
+```bash
+git log
+```
+This command will show you your commit history.
+
+``` bash
+git log --oneline --graph --all --decorate --parents
+```
+This version will show you a neat representation of you commit history across
+all branches.
+
+## Diff
+
+```bash
+git diff
+```
+Compares your working tree vs the index (staging area). It shows changes you
+haven't staged yet.
+
+```bash
+git diff --staged
+```
+
+Compares your staged files with the latest commit.
+
+```bash
+git diff HEAD
+```
+
+## Restore
+
+
+```bash
+git restore file.txt
+```
+This command allows you to restore a file from the previous commit.
+
+```bash
+git restore --staged
+```
+This will restore a file from the staging area.
+
+
+```bash
+git restore --source COMMITHASH
+```
+This will restore a file form the specified commit.
+
+## Reset
+
+``` bash
+git restore --soft HEAD~1
+```
+This command will move back the HEAD pointer, but keep the working directory the
+same, and restages your files.
+
+``` bash
+git restore --hard HEAD~1
+```
+This command will completely reset your entire repository back to the specified
+commit.
+
 
 # Branching
 
