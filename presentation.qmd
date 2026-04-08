@@ -60,8 +60,6 @@ Git stores the full history of the Linux project (1.4 million commits) in only
 
 - Allows you to control exactly when and how you will save your progress.
 
-- Your saves (commits) are structured.
-
 - You can view and reset individual files or your entire project at different
 points in time.
 
@@ -105,13 +103,12 @@ If you have not already, you should create an account on GitHub:
 You can configure two-factor authentication (2FA) using a TOTP app on mobile or
 desktop or via text message.
 
-## Set up SSH {.smaller}
-
-
-## Git {.smaller}
+## Install Git {.smaller}
 
 Git runs locally on your system. Meaning the process of installing Git is
 different per operating system. We will operate Git using the command line.
+
+[add images]
 
 ## macOS {.smaller}
 
@@ -157,6 +154,33 @@ installation instructions.
  
 4. Now search for "Git Bash" in your Start menu. If it appears, you have
 successfully installed Git on your Windows device.
+
+## Set up SSH {.smaller}
+
+1. In your terminal, or GitBash run the following:
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+- When prompted for a file location, press Enter to accept the default.
+- Optionally set a passphrase for extra security.
+
+2. Run the following:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+**Copy the entire output.**
+
+3. Go to GitHub → Settings → SSH and GPG keys
+
+4. Click New SSH key
+
+5. Give it a title (e.g., "My Laptop")
+
+6. Paste your public key
+
+7. Click Add SSH key
 
 ## Initial configuration
 
@@ -212,13 +236,38 @@ a Git repo inside it, and connect it to GitHub automatically.
 cd [repository-name]
 ```
 
+6. Run:
+
+```bash
+git init
+```
+
 ## What is a Commit? {.smaller}
 
 - The core functionality of Git is the ability to save your work.
+  - Git packages these saves as **commits**.
 
-- Git packages saves as **commits**.
+- A commit is a permanent snapshot of your project's files at a specific point
+in time
 
-- Git gives you full control over which files are committed and when.
+- Commits act as a "save point" in your project's history
+
+- Commits are ordered and structured, each subsequent save (commit) points to
+the previous commit.
+
+```{mermaid}
+flowchart LR
+    A["Initial commit"]
+    B["Second commit"]
+    C["Third commit"]
+
+    A --> B
+    B --> C
+```
+> Each node represents one commit.
+
+
+## How do we control which files get Committed {.smaller} 
 
 - Git labels every file in your repository with one of three states:
   - These states are how we control what gets committed and what does not.
@@ -229,48 +278,47 @@ cd [repository-name]
 | `modified`  | A tracked file that has changes not yet staged. |
 | `staged`    | Marked for inclusion in the next commit.        |
 
+- Once a file is staged, then we can commit it.
 
 ## Your First Commit {.smaller}
 
-**Create a new file**
+Every repository needs a good "readme", it is the landing page where you can
+explain exactly the purpose of your repository and any other additional
+information that you may need to share.
 
-Create a new file called `README.md`.
+1. Within your repository, create a new file called `README.md`.
 
-Inside the file, write:
+2. Inside the file, write:
 
 ```text
 This is an example Homework assignment.
 ```
 
-Save the file.
+3. Save the file.
 
-**Check the status of your repository**
+4. Run the following:
 
 ```bash
 git status
 ```
-
-You should see `hello.md` listed as an **untracked** file.
+> You should see `hello.md` listed as an **untracked** file.
 
 ## Staging Your Changes {.smaller}
 
-Stage the file with `git add`:
+We can stage a file using `git add`:
 
 ```bash
 git add README.md
 ```
-
-- This marks the file for inclusion in the next commit.
+> This marks the file for inclusion in the next commit.
 
 Now run `git status` again:
 
 ```bash
 git status
 ```
-
-You should now see `README.md` listed under **"Changes to be committed"** 
-
-- It is now in the **staged** state.
+> You should now see `README.md` listed under **"Changes to be committed"**. It
+> is now in the **staged** state.
 
 ::: {.callout-tip}
 ### Staging all changes at once
@@ -278,20 +326,29 @@ You can stage all changed and untracked files at once with:
 ```bash
 git add .
 ```
-Be careful with this - make sure you are not accidentally staging files you
+Be careful with this, make sure you are not accidentally staging files you
 did not intend to commit.
 :::
 
 ## Making the Commit
+
+Run the following:
 
 ```bash
 git commit -m "Initial added README"
 ```
 
 - Every commit requires a **commit message**.
-  - a short description of what changed and why.
+  - A short description of what changed and why.
+
 - A good commit message is short but descriptive, e.g.
 `"Initial added README"` rather than `"changes"`.
+
+:::{.callout-tip}
+### The 50/70 rule
+50 is the maximum number of characters of the commit title, and 72 is the
+maximum character length of the commit body
+:::
 
 ## What happens when you make a commit? {.smaller}
 
@@ -308,18 +365,50 @@ git commit -m "Initial added README"
 - Environment or OS-specific files (`.DS_Store`, etc.)
 - Anything copyrighted or sensitive (API keys, passwords)
 
+## When should I commit my changes?
+
+- A commit should represent a single "atomic" unit of work: one coherent feature,
+bug fix, or refactoring
+  - Avoid mixing unrelated changes, such as fixing a bug and refactoring code in
+	the same commit.
+
+- Treat local commits like a save point in a video game that you can always go
+back to.
+	- Ask yourself: "would I be comfortable losing the progress I have made since
+	the previous commit?"
+
+- Many developers commit every 15 to 60 minutes or whenever they finish a "full
+thought".
+
 ## Uploading Changes to GitHub  {.smaller}
+
+Now that we have save our work locally we are ready to send the changes to our
+GitHub repository. 
+
+- GitHub an entire Git repository for you, on their server.
+- Sending the changes from your local repo to an external one is called a `push`
+
+Run this:
 
 ```bash
 git push origin main
 ```
 
-- This syncs your local commits to your GitHub repository.
-- `origin` is the name of your remote connection to GitHub.
-- `main` is the name of the branch you are pushing to.
+> This syncs your local commits to your GitHub repository. `origin` is the name
+> of your remote connection to GitHub. `main` is the name of the branch you are
+> pushing to.
 
-After pushing, navigate to your repository on GitHub.
+After pushing, navigate to your repository on GitHub and reload the page.
 
+## When should I push my changes?
+
+- It is best practice to only push your changes to GitHub when you are confident
+	that your local repository is in a good state.
+	- You know that you will not need to undo changes and modify you commit
+	history.
+
+- There are some scenarios in which pushing will prevent you from altering your
+	commit history in a standard way.
 
 ## The Git & GitHub Workflow {.smaller}
 
@@ -486,31 +575,32 @@ interfering with each other.
 
 ## Creating and Switching Branches {.smaller}
 
-Create a new branch:
+1. Create a new branch:
 
 ```bash
 git branch feature-branch
 ```
 
-Switch to the new branch:
+2. Switch to the new branch:
 
 ```bash
 git switch feature-branch
 ```
 
-Or do both at once:
-
+::: {.callout-tip}
+You can create and switch with one line like this:
 ```bash
 git switch -c feature-branch
 ```
+:::
 
-Check which branch you are currently on:
+3. Check which branch you are currently on:
 
 ```bash
 git branch
 ```
 
-The branch with the `*` next to it is the branch you are currently on.
+> The branch with the `*` next to it is the branch you are currently on.
 
 ## Working on a Branch {.smaller}
 
@@ -691,3 +781,27 @@ git push origin feature-branch
 git switch main
 git pull origin main
 ```
+
+## Finish the workshop {.smaller}
+
+In order to consider yourself truly finished with this workshop, I think you
+should be exposed to the true collaborative workflow!
+
+1. Locate the workshop presentation on GitHub. You can find the link from the
+	 CSAS 2026 website in the workshop section.
+
+2. Fork the repository.
+
+3. Use `git clone` to clone the forked repository locally.
+
+4. **Create a new branch**, and switch to it.
+
+5. Locate `collaborate.md`
+
+6. Find your number and insert your name.
+
+7. `add`, `commit` and `push` your changes to the branch.
+
+8. Create a new PR.
+
+9. I will either approve or deny the request.
