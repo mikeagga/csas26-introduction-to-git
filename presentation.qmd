@@ -28,21 +28,24 @@ format:
 
 - Set up a GitHub account and install Git locally.
 
-- Learn the Git workflow for working on an individual project.
+- Get comfortable using Git with hands on experience.
 
-- Learn the basics of collaboration.
+- Learn the basics of collaboration with GitHub.
 
 # What is Git?
 
-## What is Git? {.smaller}
+## What is Git?
 
 - Git is a free and open-source distributed version control system (VCS) designed
 to track changes in source code and other files.
 
+- Primarily, Git is a command line utility that runs locally on your machine.
+  - Meaning, we will be using the command line.
+
 - Git is particularly useful when you and a group of people are all making
 changes to the same files at the same time.
 
-**Why Git?**
+## Why Git?
 
 - According to the 2022 Stack Overflow developer survey, 96% of professional 
 developers use Git.
@@ -54,38 +57,60 @@ handle repositories with tens of millions of lines of code.
 Git stores the full history of the Linux project (1.4 million commits) in only
 5.5 GB.
 
-## Why do we need Git version control? {.smaller}
+## What is version control and why do we need Git? {.smaller}
 
-- Keeps your project organized and structured.
+- Much like save states in a video game, Git allows us to save our projects
+  progress when we choose.
 
-- Allows you to control exactly when and how you will save your progress.
+- Gives you security in knowing that if something goes wrong you can always go
+	back.
+  - Allows you to take risks in your project that you normally would not.
 
-- You can view and reset individual files or your entire project at different
-points in time.
+- Keeps your progress organized, visible and sequential.
+
+- Gives you a multitude quality of life features.
+  - Writing code or finishing a project is hard enough as is. You should not
+	have to worry about little things going wrong.
 
 
-## What is GitHub? {.smaller}
+## What is GitHub?
 
-- GitHub is a platform that will host a Git repository on their servers for
-you.
+- GitHub company owned by Microsoft, they will host your project on their
+servers and allow you view them through their website.
 
-- Typically users work locally, track their changes with Git, then upload the
-changes to GitHub.
+- GitHub uses Git as their backbone, but they provide a lot of extra
+functionality.
+	- Especially for working collaboratively.
 
-**Git vs GitHub**
-	
-- Git is a tool, GitHub is a platform that uses the tool.
+- GitHub is the platform of choice for almost all open source software. But also
+closed source software.
+  - Meaning if you aim to work on software you will likely be using GitHub.
 
-**Why GitHub**
 
-- GitHub provides many addition features that make collaboration more simple.
+## Why GitHub? {.smaller}
 
-- Your project will be uploaded to the cloud. Meaning, you can seamlessly work
-on one project across multiple devices, your progress is shared between them.
+- Since your project will be uploaded to the cloud, you can work on projects
+across your devices.
+  - No excuses that your laptop broke.
 
-- You can display your projects to the public.
+- There are other websites that will host your projects on their server: ie.
+GitLab, Bitbucket.
+  - Although, GitHub is the most popular.
+    - **Popularity is important**.
 
-- GitHub is the industry standard.
+**Build and share your portfolio**.
+
+- People can naturally find your projects.
+	- Or you could share them easily.
+
+- You can search through millions of open source projects and even contribute to
+them.
+
+- **Makes collaboration simple**.
+
+## Git vs. GitHub
+
+
 
 # Setup & Installation {.smaller}
 
@@ -103,7 +128,7 @@ If you have not already, you should create an account on GitHub:
 You can configure two-factor authentication (2FA) using a TOTP app on mobile or
 desktop or via text message.
 
-## Install Git {.smaller}
+## Installing Git {.smaller}
 
 Git runs locally on your system. Meaning the process of installing Git is
 different per operating system. We will operate Git using the command line.
@@ -250,7 +275,7 @@ git init
 - A commit is a permanent snapshot of your project's files at a specific point
 in time
 
-- Commits act as a "save point" in your project's history
+- Commits act as a "save point" in your project's history.
 
 - Commits are ordered and structured, each subsequent save (commit) points to
 the previous commit.
@@ -269,6 +294,8 @@ flowchart LR
 
 ## How do we control which files get Committed {.smaller} 
 
+- Before we save our work, we have to tell Git what files we would like to save.
+
 - Git labels every file in your repository with one of three states:
   - These states are how we control what gets committed and what does not.
 
@@ -282,21 +309,25 @@ flowchart LR
 
 ## Your First Commit {.smaller}
 
-Every repository needs a good "readme", it is the landing page where you can
-explain exactly the purpose of your repository and any other additional
-information that you may need to share.
+Every repository needs a good "readme", it is the landing page of your
+repository. You should explain exactly the purpose of your repository. You
+should also provide any other additional information that someone interested in
+your project may need.
 
-1. Within your repository, create a new file called `README.md`.
+1. Open the IDE or text editor of your choice.
+  - Choose whatever program you typically use to do work.
 
-2. Inside the file, write:
+2. Within your repository, create a new file called `README.md`.
+
+3. Inside the file, give a description of your project, for example:
 
 ```text
 This is an example Homework assignment.
 ```
 
-3. Save the file.
+4. **Save the file**.
 
-4. Run the following:
+5. Run the following:
 
 ```bash
 git status
