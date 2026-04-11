@@ -11,18 +11,18 @@ format:
         slide-number: true
     html:
         output-file: web.html
-
+    pdf: default
 ---
 
 # Outline
 
-1. What is Git? (5 min)
-2. Setup & Installation (18 min)
-3. Git Fundamentals (20 min)
-4. Additional Basic Functionality (7 min)
-5. Branching (10 min)
-6. Collaboration with GitHub (7 min)
-7. Further Reading & Wrap Up (3 min)
+1. What is Git?
+2. Setup & Installation
+3. Git Fundamentals
+4. Additional Basic Functionality
+5. Branching
+6. Collaboration with GitHub
+7. Further Reading & Wrap Up
 
 # Objectives
 
@@ -42,8 +42,10 @@ to track changes in source code and other files.
 - Primarily, Git is a command line utility that runs locally on your machine.
   - Meaning, we will be using the command line.
 
-- Git is particularly useful when you and a group of people are all making
-changes to the same files at the same time.
+- Git is **the** essential version control tool that provides both the foundation
+	and safety net you need to take your projects to the next level of
+	professionalism.
+  - Or a tool to help you complete your homework.
 
 ## Why Git?
 
@@ -68,14 +70,14 @@ Git stores the full history of the Linux project (1.4 million commits) in only
 
 - Keeps your progress organized, visible and sequential.
 
-- Gives you a multitude quality of life features.
+- Provides a multitude of quality of life features.
   - Writing code or finishing a project is hard enough as is. You should not
 	have to worry about little things going wrong.
 
 
 ## What is GitHub?
 
-- GitHub company owned by Microsoft, they will host your project on their
+- GitHub is company owned by Microsoft, they will host your project on their
 servers and allow you view them through their website.
 
 - GitHub uses Git as their backbone, but they provide a lot of extra
@@ -96,9 +98,10 @@ across your devices.
 - There are other websites that will host your projects on their server: ie.
 GitLab, Bitbucket.
   - Although, GitHub is the most popular.
-    - **Popularity is important**.
 
 **Build and share your portfolio**.
+
+- GitHub is like a social media for your code.
 
 - People can naturally find your projects.
 	- Or you could share them easily.
@@ -108,9 +111,6 @@ them.
 
 - **Makes collaboration simple**.
 
-## Git vs. GitHub
-
-
 
 # Setup & Installation {.smaller}
 
@@ -118,7 +118,8 @@ them.
 
 If you have not already, you should create an account on GitHub:
 
-1) Visit the GitHub website: [GitHub signup](https://github.com/signup). Enter your credentials, email and password.
+1) Visit the GitHub website: [GitHub signup](https://github.com/signup). Enter
+your credentials, email and password.
 
 2) **Enable 2FA**
 
@@ -133,8 +134,6 @@ desktop or via text message.
 Git runs locally on your system. Meaning the process of installing Git is
 different per operating system. We will operate Git using the command line.
 
-[add images]
-
 ## macOS {.smaller}
 
 There are a few ways to install Git on your Mac, but the easiest is to use
@@ -143,23 +142,23 @@ applications.
 
 **Install Homebrew**
 
-- Visit [brew.sh](https://brew.sh) in your browser. You will find the following
+1. Visit [brew.sh](https://brew.sh) in your browser. You will find the following
 command:
 
 ``` 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-- Copy and paste this command into your terminal. Hit enter to run it.
+2. Copy and paste this command into your terminal. Hit enter to run it.
 
 **Use Homebrew to install Git**
 
-Once Homebrew has finished installing, run this command:
+3. Once Homebrew has finished installing, run this command:
 
 ```
 brew install git
 ```
 
-Once installation is complete, verify Git is installed:
+4. Once installation is complete, verify Git is installed:
 
 ```
 git --version
@@ -195,17 +194,17 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ```bash
 cat ~/.ssh/id_ed25519.pub
 ```
-**Copy the entire output.**
+3. **Copy the entire output.**
 
-3. Go to GitHub → Settings → SSH and GPG keys
+4. Go to GitHub → Settings → SSH and GPG keys
 
-4. Click New SSH key
+5. Click New SSH key
 
-5. Give it a title (e.g., "My Laptop")
+6. Give it a title (e.g., "My Laptop")
 
-6. Paste your public key
+7. Paste your public key
 
-7. Click Add SSH key
+8. Click Add SSH key
 
 ## Initial configuration
 
@@ -236,6 +235,7 @@ Modifying or deleting anything inside `.git/` can corrupt your repository.
 :::
 
 ## Creating Your First Repository {.smaller}
+::: {style="font-size: 0.8em;"}
 
 1. Create a new repository on GitHub.
     - Give it a name and leave all other settings as default for now.
@@ -243,8 +243,12 @@ Modifying or deleting anything inside `.git/` can corrupt your repository.
 2. Copy the SSH link from the **"Code"** dropdown on your new repository's
 page.
 
-3. In your terminal, `cd` into the directory where you want to keep your
-project.
+3. Now, open your terminal and **change directories** to where you would like your
+	 project to stay:
+
+```bash
+cd ~/Documents
+```
 
 4. Clone the repository:
 
@@ -252,8 +256,8 @@ project.
 git clone [paste your ssh link here]
 ```
 
-This will create a new directory with the name of your repository, initialize
-a Git repo inside it, and connect it to GitHub automatically.
+> This will create a new directory with the name of your repository, initialize
+> a Git repo inside it, and connect it to GitHub automatically.
 
 5. `cd` into your new repository:
 
@@ -266,6 +270,7 @@ cd [repository-name]
 ```bash
 git init
 ```
+:::
 
 ## What is a Commit? {.smaller}
 
@@ -294,7 +299,7 @@ flowchart LR
 
 ## How do we control which files get Committed {.smaller} 
 
-- Before we save our work, we have to tell Git what files we would like to save.
+- Before we make a commit, we have to tell Git what files we would like to save.
 
 - Git labels every file in your repository with one of three states:
   - These states are how we control what gets committed and what does not.
@@ -308,9 +313,10 @@ flowchart LR
 - Once a file is staged, then we can commit it.
 
 ## Your First Commit {.smaller}
+::: {style="font-size: 0.9em;"}
 
 Every repository needs a good "readme", it is the landing page of your
-repository. You should explain exactly the purpose of your repository. You
+repository. You should precisely explain the purpose of your repository. You
 should also provide any other additional information that someone interested in
 your project may need.
 
@@ -332,18 +338,23 @@ This is an example Homework assignment.
 ```bash
 git status
 ```
-> You should see `hello.md` listed as an **untracked** file.
+> You should see `README.md` listed as an **untracked** file.
+
+:::
 
 ## Staging Your Changes {.smaller}
 
-We can stage a file using `git add`:
+::: {style="font-size: 0.8em;"}
+We have finished editing our file. Now we need to tell Git what to track.
+
+1. Run the following:
 
 ```bash
 git add README.md
 ```
 > This marks the file for inclusion in the next commit.
 
-Now run `git status` again:
+2. Then check the repository status.
 
 ```bash
 git status
@@ -360,13 +371,14 @@ git add .
 Be careful with this, make sure you are not accidentally staging files you
 did not intend to commit.
 :::
+:::
 
 ## Making the Commit
 
 Run the following:
 
 ```bash
-git commit -m "Initial added README"
+git commit -m "Initial, added README"
 ```
 
 - Every commit requires a **commit message**.
@@ -385,8 +397,11 @@ maximum character length of the commit body
 
 - Git saves a snapshot of all staged files at that moment in time.
 - Git generates a unique hash (e.g. `a3f8c2d...`) to identify the commit.
-- Git records your name, email, and timestamp alongside the commit.
-- Git updates the `.git/` directory with the new commit.
+- Git records your name, email, and timestamp.
+- Git updates the `.git/` directory.
+- Finally the commit is added to your commit history.
+
+You can use `git log` to check your commit history.
 
 **What you should never commit**
 
@@ -413,14 +428,16 @@ thought".
 
 ## Uploading Changes to GitHub  {.smaller}
 
-Now that we have save our work locally we are ready to send the changes to our
+Now that we have saved our work locally we are ready to send the changes to our
 GitHub repository. 
 
-- GitHub an entire Git repository for you, on their server.
+- GitHub hosts a bare Git repository for you, on their server.
+  - So our GitHub repo is actually a entirely different repository on a
+	different computer.
+
 - Sending the changes from your local repo to an external one is called a `push`
 
-Run this:
-
+Run this to upload your changes:
 ```bash
 git push origin main
 ```
@@ -441,7 +458,11 @@ After pushing, navigate to your repository on GitHub and reload the page.
 - There are some scenarios in which pushing will prevent you from altering your
 	commit history in a standard way.
 
+- You should treat you GitHub repository as the place where your stable work
+	goes.
+
 ## The Git & GitHub Workflow {.smaller}
+::: {style="font-size: 0.9em;"}
 
 Putting it all together, the basic workflow is:
 
@@ -462,11 +483,11 @@ git commit -m "your message here"
 ```bash 
 git push origin main
 ```
-
 ::: {.callout-tip}
 ### Get in the habit of running `git status` constantly
 Before and after every command, run `git status`. It will always tell you
 exactly what state your repository is in and help you avoid surprises.
+:::
 :::
 
 ## Lets try another example. {.smaller}
@@ -502,15 +523,18 @@ files out of your repository.
 ## Example `.gitignore` {.smaller}
 
 ```text
-# Ignore all CSV files
+# Ignore all CSV files.
 *.csv
 
-# Ignore macOS system files
+# Ignore macOS system files.
 .DS_Store
 
-# Ignore Python cache
+# Ignore Python cache.
 __pycache__/
 *.pyc
+
+# Ignore virtual environment folder.
+.venv/
 ```
 
 Create a `.gitignore` by making a new file in the root of your repository
@@ -518,64 +542,87 @@ named `.gitignore` and adding the patterns you want to ignore.
 
 ## Log
 
+This command will show you your commit history and its structure. It also
+provides the commit hashes, which can be useful if you need to single out a
+commit.
+
 ```bash
 git log
 ```
-This command will show you your commit history.
+- This unformatted version can get messy if you have a large commit history.
 
 ``` bash
 git log --oneline --graph --all --decorate --parents
 ```
-This version will show you a neat representation of you commit history across
+- This version will show you a neat representation of you commit history across
 all branches.
 
-## Diff
+## Checkout
+In earlier versions of Git `checkout` had many uses. Although, in modern
+versions of it is primarily just used to look at the contents of previous
+commits.
+
+```bash
+git checkout <commit hash>
+```
+
+:::{.callout-note}
+Be careful not to commit to your current branch when checked out on a commit
+other than the tip.
+:::
+
+## Diff {.smaller}
+
+This command allows you to see the differences between various combinations of
+files across commits.
 
 ```bash
 git diff
 ```
-Compares your working tree vs the index (staging area). It shows changes you
-haven't staged yet.
+- Compares your working tree vs the index (staging area). It shows changes you
+haven't staged yet. Although the file must be tracked. 
 
 ```bash
 git diff --staged
 ```
-
-Compares your staged files with the latest commit.
+- Compares your staged files with the latest commit.
 
 ```bash
 git diff HEAD
 ```
+- Compares your staged and unstaged changes to the most recent commit.
 
 ## Restore
 
+This command is useful if you want to restore a file quickly.
 
 ```bash
-git restore file.txt
+git restore <file>
 ```
-This command allows you to restore a file from the previous commit.
+- This command allows you to restore a file from the previous commit.
 
 ```bash
-git restore --staged
+git restore --staged <file>
 ```
-This will restore a file from the staging area.
-
+- This will remove the file from the staging area.
 
 ```bash
-git restore --source COMMITHASH
+git restore --source COMMITHASH <file>
 ```
-This will restore a file form the specified commit.
+- This will restore a file form the specified commit.
 
 ## Reset
 
+These commands let you reset your entire repository back to a previous commit.
+
 ``` bash
-git restore --soft HEAD~1
+git reset --soft HEAD~1
 ```
 This command will move back the HEAD pointer, but keep the working directory the
 same, and restages your files.
 
 ``` bash
-git restore --hard HEAD~1
+git reset --hard HEAD~1
 ```
 This command will completely reset your entire repository back to the specified
 commit.
@@ -596,7 +643,20 @@ codebase that you can make changes to without affecting **main**.
 - When you are satisfied with your changes, you can merge your branch back
 into **main**.
 
-**Why use branches?**
+```{mermaid}
+flowchart LR
+    A["Initial commit"]
+    B["Second commit"]
+    C["Third commit"]
+    D["Fourth commit"]
+
+    A -->|main| B
+    B -->|main| C
+		B -->|feature| D
+```
+> Each node represents one commit.
+
+## Why use branches?
 
 - Allows you to work on a new feature or fix a bug without risking breaking
 the working version of your project.
@@ -641,6 +701,7 @@ Once you are on your new branch, the workflow is exactly the same as before:
 2. Stage the changes with `git add`.
 3. Commit the changes with `git commit -m "commit message"`.
 
+
 Any commits you make will only affect your current branch. Your **main**
 branch will remain unchanged.
 
@@ -649,6 +710,10 @@ Push your branch to GitHub:
 ```bash
 git push origin feature-branch
 ```
+- GitHub will not know about your branch until you push to it.
+
+**Try this**
+Create a new file `contents.md`, add, commit and push it to this branch.
 
 ## Merging Branches {.smaller}
 
@@ -708,6 +773,8 @@ To delete the branch on GitHub as well:
 ```bash
 git push origin --delete feature-branch
 ```
+
+- You can also directly delete the branch using GitHub.
 
 # Collaboration with GitHub
 
@@ -788,6 +855,11 @@ git switch main
 git pull origin main
 ```
 
+Any time the upstream repository (GitHub repo) has been updated, you have to download
+the changes. This is done using `git pull`.
+
+ - Only pulls changes from your current branch.
+
 ## The Full Collaboration Workflow {.smaller}
 
 Putting it all together:
@@ -814,7 +886,7 @@ git pull origin main
 ```
 
 ## Finish the workshop {.smaller}
-
+::: {style="font-size: 0.8em;"}
 In order to consider yourself truly finished with this workshop, I think you
 should be exposed to the true collaborative workflow!
 
@@ -824,6 +896,12 @@ should be exposed to the true collaborative workflow!
 2. Fork the repository.
 
 3. Use `git clone` to clone the forked repository locally.
+
+Now wait for further instruction.
+
+4. Refresh your GitHub page, and click **sync fork**
+
+5. Now use `git pull` to pull the changes to your local repo.
 
 4. **Create a new branch**, and switch to it.
 
@@ -836,3 +914,22 @@ should be exposed to the true collaborative workflow!
 8. Create a new PR.
 
 9. I will either approve or deny the request.
+:::
+
+## Summary
+
+**I hope you learned**:
+
+- How to commit locally.
+  - Basic Git functionality.
+
+- How to use GitHub for personal use and collaboration.
+  - Fundamentals of remote repositories.
+
+- The benefit of using Git and GitHub.
+
+## Thank you!
+
+Thanks for finishing my workshop, I hope you learned a lot.
+
+Let me know if you have any questions!
