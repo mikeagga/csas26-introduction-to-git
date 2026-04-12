@@ -12,7 +12,7 @@ format:
         embed-resources: true
     html:
         output-file: web.html
-    typst: default
+    pdf: default
 ---
 
 # Outline
@@ -285,19 +285,6 @@ in time
 
 - Commits are ordered and structured, each subsequent save (commit) points to
 the previous commit.
-
-::: {.content-hidden when-format="pdf"}
-```{mermaid}
-flowchart LR
-    A["Initial commit"]
-    B["Second commit"]
-    C["Third commit"]
-
-    A --> B
-    B --> C
-```
-> Each node represents one commit.
-:::
 
 
 ## How do we control which files get Committed {.smaller} 
@@ -646,20 +633,6 @@ codebase that you can make changes to without affecting **main**.
 - When you are satisfied with your changes, you can merge your branch back
 into **main**.
 
-::: {.content-hidden when-format="pdf"}
-```{mermaid}
-flowchart LR
-    A["Initial commit"]
-    B["Second commit"]
-    C["Third commit"]
-    D["Fourth commit"]
-
-    A -->|main| B
-    B -->|main| C
-    B -->|feature| D
-```
-> Each node represents one commit.
-:::
 
 ## Why use branches?
 
