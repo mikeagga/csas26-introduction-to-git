@@ -1,4 +1,5 @@
 presentation_files/
+.DS_Store
 resentation_files/
 presentation.html
 todo.txt
@@ -7,3 +8,4 @@ notes.txt
 media/
 presentation.pdf
 web.html
+.Rhistory
